@@ -1,0 +1,123 @@
+:root {
+  --w-width: 90vw;
+  --w-height: 90vh;
+}
+
+body {
+  background: #000;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+#root{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+}
+
+.field {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  background:rgb(217, 172, 57);
+  height: var(--w-width);
+  width: var(--w-width);
+  max-height: var(--w-height);
+  max-width: var(--w-height);
+  margin: 0 auto;
+  border-radius: 20px;
+}
+
+.hole-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.field.cols-4 .hole-wrap {
+  width: 50%;
+  height: 50%;
+}
+
+.field.cols-9 .hole-wrap,
+.field.cols-6 .hole-wrap {
+  width: 33.33%;
+  height: 33.33%;
+}
+
+.field.cols-12 .hole-wrap,
+.field.cols-16 .hole-wrap {
+  width: 25%;
+  height: 25%;
+}
+
+.hole {
+  width: 75%;
+  height: 75%;
+  border: 4px solid green;
+  border-radius: 50%;
+  background-color: rgb(30, 13, 3);
+  color: white;
+  box-shadow: inset 0px 30px black;
+  overflow: hidden;
+  position: relative;
+}
+
+.hole::after {
+  content: '';
+  background: url('./badger.svg');
+  position: absolute;
+  display: block;
+  width: 80%;
+  height: 80%;
+  top: 0%;
+  left: 50%;
+  transform: translate(-50%, 150%);
+  transition: transform 1.7s ease-in-out;
+}
+
+.hole.active {
+  background: rgb(83, 6, 6);
+}
+
+.hole.active:after {
+  transform: translate(-50%, 20%);
+}
+
+.btn {
+  padding: 12px 30px;
+  margin-top: 20px;
+  
+  border: none;
+  border-radius: 10px;
+  font-weight: bold;
+}
+
+.btn--start {
+  background-color: chartreuse;
+}
+
+.btn--stop {
+  background-color: rgb(197, 37, 37);
+}
+
+.timer {
+  color: white;
+  position: absolute;
+  left: -40px;
+  bottom: 20px;
+}
