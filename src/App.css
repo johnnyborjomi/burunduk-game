@@ -76,6 +76,12 @@ body {
   height: 25%;
 }
 
+.field.cols-20 .hole-wrap,
+.field.cols-25 .hole-wrap {
+  width: 20%;
+  height: 20%;
+}
+
 .hole {
   width: 75%;
   height: 75%;
@@ -86,6 +92,15 @@ body {
   box-shadow: inset 0px 30px black;
   overflow: hidden;
   position: relative;
+}
+
+.hole:hover {
+  cursor: crosshair;
+  border-color: red;
+}
+
+.hole.active:hover {
+  border-width: 10px;
 }
 
 .hole::after {

@@ -4,9 +4,9 @@ export const Hole = ({item, handler}) => {
     return (
         <div className="hole-wrap" >
           <div className={`hole${item.active ? ' active' : ''}`} onClick={handler}>
-            {item.num}
+            {/* {item.num} */}
             <br/>
-            {'' + item.active}
+            {/* {'' + item.active} */}
           </div>
         </div>
       )
