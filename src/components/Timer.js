@@ -1,5 +1,19 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 
-export const Timer = ({time}) => {
-   return <div className="timer">{time}</div>
+let interval = null;
+
+export const Timer = ({isRun}) => {
+  const [time, setTime] = useState(0);
+
+   useEffect(() => {
+      if (isRun) {
+        interval = setInterval(() => {
+          setTime(prev => prev + 1);
+        }, 1000);
+      } else {
+        clearInterval(interval);
+      }
+    }, [isRun]);
+
+   return <div className="timer">Timer: {time}</div>
 }

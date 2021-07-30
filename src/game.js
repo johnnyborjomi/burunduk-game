@@ -1,19 +1,20 @@
 export default class Game {
-    interval = null;
-        constructor (holeCount) {
+    isEventsRunning = false;
+
+    constructor (holeCount) {
         this.holeCount = holeCount;
         this.holesMtx = this.generateMtx(holeCount);
     }
 
     generateMtx (count) {
-        return new Array(count).fill('').map((item, i) => ({ acitve: false, num: i }));
+        return new Array(count).fill('').map((item, i) => ({ active: false, num: i }));
     }
 
     generateEvent () {
         const showTime = Math.round(Math.random() * 2000);
         const stayTime = Math.round(Math.random() * 5000);
         const hideTime = showTime + stayTime;
-        const activeHole = Math.round(Math.random() * this.holeCount);
+        const activeHole = Math.round(Math.random() * (this.holeCount - 1));
         return {
             showTime,
             stayTime,
@@ -22,24 +23,40 @@ export default class Game {
         } 
     }
 
+    renderEvent (event, isRender, _setMtxCb) {
+        console.log(`${isRender ? 'show' : 'hide'}::::::`, JSON.stringify(event, null, 2));
+
+        //disable render when game is stopped
+        if (isRender && !this.isEventsRunning) return;
+
+        //render event
+        if (isRender) {
+            _setMtxCb(mtx => {
+                mtx[event.activeHole].active = true;
+                return [...mtx];
+            });
+
+            return;
+        } 
+
+        //unrender event and call new event if not stopped
+        _setMtxCb(mtx => {
+            mtx[event.activeHole].active = false;
+            return [...mtx];
+        });
+
+        if (!this.isEventsRunning) return;
+        this.runEvents(_setMtxCb);
+    }
+
     runEvents (_setMtxCb) {
+        this.isEventsRunning = true;
         const event = this.generateEvent();
-        console.log('::::::: event:',event);
-        setTimeout(() => {
-            console.log('show::::::: event:',event);
-            _setMtxCb(mtx => {
-                mtx[event.activeHole].acitve = true;
-                return mtx;
-            });
-        }, event.showTime);
-      
-        setTimeout(() => {
-            _setMtxCb(mtx => {
-                console.log('hide::::::: event:',event);
-                mtx[event.activeHole].acitve = false;
-                return mtx;
-            });
-            this.runEvents(_setMtxCb);
-        }, event.hideTime)
+        setTimeout(() => this.renderEvent(event, true, _setMtxCb), event.showTime);
+        setTimeout(() => this.renderEvent(event, false, _setMtxCb), event.hideTime)
+    }
+
+    stopEvents () {
+        this.isEventsRunning = false;
     }
 }

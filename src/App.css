@@ -1,6 +1,6 @@
 :root {
-  --w-width: 90vw;
-  --w-height: 90vh;
+  --w-width: 80vw;
+  --w-height: 80vh;
 }
 
 body {
@@ -12,6 +12,7 @@ body {
   align-items: center;
   justify-content: center;
   min-height: 100vh;
+  font-family: monospace, sans-serif;
 }
 
 #root{
@@ -25,6 +26,16 @@ body {
   flex-direction: column;
   justify-content: center;
   position: relative;
+}
+
+.display {
+  padding: 10px 0;
+  display: flex;
+  color: white;
+}
+
+.display > div {
+  margin-right: 20px;
 }
 
 .field {
@@ -113,11 +124,4 @@ body {
 
 .btn--stop {
   background-color: rgb(197, 37, 37);
-}
-
-.timer {
-  color: white;
-  position: absolute;
-  left: -40px;
-  bottom: 20px;
 }
