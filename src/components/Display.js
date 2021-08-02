@@ -2,6 +2,7 @@ import React from 'react';
 import {Timer} from './Timer';
 
 export const Display = ({score, isRun, misses, level}) => {
+    console.log('DISPLAY RENDER!!!!!!!!')
     return (
         <div className="display">
             <Timer isRun={isRun}/>

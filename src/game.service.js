@@ -68,7 +68,7 @@ export default class Game {
         clearTimeout(this.hideTimeoutId);
     }
 
-    renderEvent (event, isRender) {
+    sendEvent (event, isRender) {
         console.log(`${isRender ? 'show' : 'hide'}::::::`, JSON.stringify(event, null, 2));
 
         //disable render when game is stopped
@@ -79,19 +79,34 @@ export default class Game {
 
         //render event
         if (isRender) {
-            this.setMtxCallback(mtx => {
-                mtx[event.activeHole].active = true;
-                return [...mtx];
+            // this.setMtxCallback(mtx => {
+            //     mtx[event.activeHole].active = true;
+            //     return [...mtx];
+            // });
+            const ev = new CustomEvent('Badger:action', {
+                detail: {
+                    isRender: true,
+                    activeHole: event.activeHole
+                }
             });
+            document.dispatchEvent(ev);
 
             return;
         } 
 
         //unrender event and call new event if not stopped
-        this.setMtxCallback(mtx => {
-            mtx[event.activeHole].active = false;
-            return [...mtx];
+        // this.setMtxCallback(mtx => {
+        //     mtx[event.activeHole].active = false;
+        //     return [...mtx];
+        // });
+        const ev = new CustomEvent('Badger:action', {
+            detail: {
+                isRender: false,
+                activeHole: event.activeHole
+            }
         });
+        document.dispatchEvent(ev);
+
 
         if (!this.isEventsRunning) {
             this.clearEvents();
@@ -104,8 +119,8 @@ export default class Game {
         this.isEventsRunning = true;
         this.setMtxCallback = _setMtxCb;
         const event = this.generateEvent();
-        this.showTimeoutId = setTimeout(() => this.renderEvent(event, true), event.showTime);
-        this.hideTimeoutId = setTimeout(() => this.renderEvent(event, false), event.hideTime)
+        this.showTimeoutId = setTimeout(() => this.sendEvent(event, true), event.showTime);
+        this.hideTimeoutId = setTimeout(() => this.sendEvent(event, false), event.hideTime)
     }
 
     stopEvents () {

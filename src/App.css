@@ -51,6 +51,7 @@ body {
   max-width: var(--w-height);
   margin: 0 auto;
   border-radius: 20px;
+  box-shadow: 3px 6px #4a3d08;
 }
 
 .hole-wrap {
@@ -87,7 +88,7 @@ body {
   height: 75%;
   border: 4px solid green;
   border-radius: 50%;
-  background-color: rgb(30, 13, 3);
+  background-color: rgb(44, 21, 7);
   color: white;
   box-shadow: inset 0px 30px black;
   overflow: hidden;
@@ -113,11 +114,19 @@ body {
   top: 0%;
   left: 50%;
   transform: translate(-50%, 150%);
-  transition: transform 1.7s ease-in-out;
+  transition: transform 600ms ease-in-out;
 }
 
-.hole.active {
+.hole.entering {
   background: rgb(83, 6, 6);
+}
+
+.hole.exited:after {
+  transform: translate(-50%, 150%);
+}
+
+.hole.entering:after {
+  transform: translate(-50%, 0%);
 }
 
 .hole.active:after {
@@ -127,14 +136,17 @@ body {
 .btn {
   padding: 12px 30px;
   margin-top: 20px;
-  
   border: none;
   border-radius: 10px;
   font-weight: bold;
 }
 
+.btn:hover {
+  cursor: pointer;
+}
+
 .btn--start {
-  background-color: chartreuse;
+  background-color: green;
 }
 
 .btn--stop {

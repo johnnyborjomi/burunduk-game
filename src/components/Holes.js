@@ -1,10 +1,18 @@
 import React from 'react';
 import {Hole} from './Hole';
 
-export const Holes = ({holesCount, mtx, holeClickHandler}) => {
+export const Holes = ({ mtx, holeClickHandler }) => {
+    console.log('HOLES RENDER!!!!!!!!!!!', 'mtx::', mtx);
     return (
-        <div className={`field cols-${holesCount}`}>
-            { mtx.map(item => <Hole key={item.num + '' + item.active} item={item} handler={() => holeClickHandler(item)} />) }
+        <div className={`field cols-${mtx.length}`}>
+            { mtx.map((item, i) => (
+                <Hole 
+                    key={item.num + '' + item.active} 
+                    item={item}
+                    index={i}
+                    handler={() => holeClickHandler(item)} 
+                />)
+            )}
         </div>
     )
 }

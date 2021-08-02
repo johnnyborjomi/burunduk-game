@@ -13,8 +13,10 @@ function App() {
   const [score, setScore] = useState(0);
   const [misses, setMisses] = useState(0);
   const [level, setLevel] = useState(game.getLevel());
+  console.log('APP RENDER!!!!!!!!!!');
 
   useEffect(() => {
+    document.addEventListener('Badger:action', e => console.log(e));
     game.bindHooks({setLevel});
   }, [])
 
@@ -22,7 +24,7 @@ function App() {
     if (isRun) {
       game.runEvents(setMtx);
     } else {
-      setMtx(mtx => game.generateMtx(game.getHolesCount()));
+      // setMtx(mtx => game.generateMtx(game.getHolesCount()));
       game.stopEvents();
     }
   }, [isRun]);
@@ -32,7 +34,7 @@ function App() {
   const holeClickHandler = (item) => {
     if (item.active) {
       setScore(score => score + 1);
-      setMtx(mtx => game.generateMtx(game.getHolesCount()));
+      // setMtx(mtx => game.generateMtx(game.getHolesCount()));
       game.sucessState(score);
     } else if (!item.active && isRun) {
       setMisses(miss => miss + 1);
@@ -42,7 +44,7 @@ function App() {
   return (
     <div className="app">
       <Display score={score} isRun={isRun} misses={misses} level={level} />
-      <Holes holesCount={game.getHolesCount()} mtx={mtx} holeClickHandler={holeClickHandler} />
+      <Holes mtx={mtx} holeClickHandler={holeClickHandler} />
       <Btn handler={startStopHandler} isRun={isRun} />
     </div>
   );
