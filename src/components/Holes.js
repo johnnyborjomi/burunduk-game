@@ -7,10 +7,10 @@ export const Holes = ({ mtx, holeClickHandler }) => {
         <div className={`field cols-${mtx.length}`}>
             { mtx.map((item, i) => (
                 <Hole 
-                    key={item.num + '' + item.active} 
                     item={item}
+                    key={`${item.num}${item.active}${Math.random()}`} 
                     index={i}
-                    handler={() => holeClickHandler(item)} 
+                    handler={holeClickHandler} 
                 />)
             )}
         </div>

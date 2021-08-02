@@ -12,7 +12,6 @@ export default class Game {
 
     constructor () {
         this.holesCount = levels[this.currentLevel].holesCount;
-        this.holesMtx = this.generateMtx(this.holesCount);
         console.log('game::::::', this)
     }
 
@@ -24,8 +23,9 @@ export default class Game {
         return this.currentLevel;
     }
 
-    bindHooks ({setLevel}) {
+    bindHooks ({setLevel, setMtx}) {
         this.setLevel = setLevel;
+        this.setMtxCallback = setMtx;
     }
 
     generateMtx (count) {
@@ -50,7 +50,7 @@ export default class Game {
         this.setLevel(this.currentLevel);
         this.holesCount = levels[this.currentLevel].holesCount;
         this.setMtxCallback(this.generateMtx(this.holesCount));
-        this.runEvents(this.setMtxCallback);
+        this.runEvents();
     }
 
     sucessState (score) {
@@ -60,7 +60,7 @@ export default class Game {
             return
         }
         this.clearEvents();
-        this.runEvents(this.setMtxCallback);
+        this.runEvents();
     }
 
     clearEvents() {
@@ -79,10 +79,6 @@ export default class Game {
 
         //render event
         if (isRender) {
-            // this.setMtxCallback(mtx => {
-            //     mtx[event.activeHole].active = true;
-            //     return [...mtx];
-            // });
             const ev = new CustomEvent('Badger:action', {
                 detail: {
                     isRender: true,
@@ -94,11 +90,6 @@ export default class Game {
             return;
         } 
 
-        //unrender event and call new event if not stopped
-        // this.setMtxCallback(mtx => {
-        //     mtx[event.activeHole].active = false;
-        //     return [...mtx];
-        // });
         const ev = new CustomEvent('Badger:action', {
             detail: {
                 isRender: false,
@@ -112,18 +103,19 @@ export default class Game {
             this.clearEvents();
             return;
         }
-        this.runEvents(this.setMtxCallback);
+        this.runEvents();
     }
 
-    runEvents (_setMtxCb) {
+    runEvents () {
         this.isEventsRunning = true;
-        this.setMtxCallback = _setMtxCb;
         const event = this.generateEvent();
         this.showTimeoutId = setTimeout(() => this.sendEvent(event, true), event.showTime);
-        this.hideTimeoutId = setTimeout(() => this.sendEvent(event, false), event.hideTime)
+        this.hideTimeoutId = setTimeout(() => this.sendEvent(event, false), event.hideTime);
     }
 
     stopEvents () {
         this.isEventsRunning = false;
+        this.clearEvents();
+        this.setMtxCallback([...this.generateMtx(this.holesCount)]);
     }
 }

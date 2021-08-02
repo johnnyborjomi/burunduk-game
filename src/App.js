@@ -16,27 +16,24 @@ function App() {
   console.log('APP RENDER!!!!!!!!!!');
 
   useEffect(() => {
-    document.addEventListener('Badger:action', e => console.log(e));
-    game.bindHooks({setLevel});
+    game.bindHooks({setLevel, setMtx});
   }, [])
 
   useEffect(() => {
     if (isRun) {
-      game.runEvents(setMtx);
+      game.runEvents();
     } else {
-      // setMtx(mtx => game.generateMtx(game.getHolesCount()));
       game.stopEvents();
     }
   }, [isRun]);
 
   const startStopHandler = () => setIsRun(run => !run);
 
-  const holeClickHandler = (item) => {
-    if (item.active) {
+  const holeClickHandler = (isActive) => {
+    if (isActive) {
       setScore(score => score + 1);
-      // setMtx(mtx => game.generateMtx(game.getHolesCount()));
       game.sucessState(score);
-    } else if (!item.active && isRun) {
+    } else if (!isActive && isRun) {
       setMisses(miss => miss + 1);
     }
   }
