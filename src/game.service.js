@@ -1,4 +1,5 @@
 import levels from './levels.config';
+import { v4 as uuid } from 'uuid';
 
 export default class Game {
     isEventsRunning = false;
@@ -29,7 +30,13 @@ export default class Game {
     }
 
     generateMtx (count) {
-        return new Array(count).fill('').map((item, i) => ({ active: false, num: i }));
+        return new Array(count)
+            .fill('')
+            .map((item, i) => ({ 
+                active: false, 
+                num: i,
+                id: uuid(),
+            }));
     }
 
     generateEvent () {

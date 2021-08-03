@@ -92,6 +92,9 @@ body {
   box-shadow: inset 0px 30px black;
   overflow: hidden;
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .hole:hover {
@@ -103,25 +106,8 @@ body {
   border-width: 10px;
 }
 
-.hole::after {
-  content: '';
-  background: url('./badger.svg');
-  position: absolute;
-  display: block;
-  width: 80%;
-  height: 80%;
-  top: 0%;
-  left: 50%;
-  transform: translate(-50%, 150%);
-  transition: transform 1.7s ease-in-out;
-}
-
 .hole.active {
   background: rgb(83, 6, 6);
-}
-
-.hole.active:after {
-  transform: translate(-50%, 20%);
 }
 
 .btn {
@@ -139,4 +125,14 @@ body {
 
 .btn--stop {
   background-color: rgb(197, 37, 37);
+}
+
+.badger-img {
+  max-width: 80%;
+  transform: translateY(150%);
+  transition: transform 500ms ease-in-out; 
+}
+
+.badger-img.visible {
+  transform: translateY(0);
 }
