@@ -4,6 +4,7 @@ import Game from './game.service';
 import {Display} from './components/Display';
 import {Btn} from './components/Btn';
 import {Holes} from './components/Holes';
+import {Message} from './components/Message';
 
 const game = new Game();
 
@@ -13,9 +14,10 @@ function App() {
   const [score, setScore] = useState(0);
   const [misses, setMisses] = useState(0);
   const [level, setLevel] = useState(game.getLevel());
+  const [message, setMessage] = useState({text: '', status: ''});
 
   useEffect(() => {
-    game.bindHooks({setLevel, setMtx});
+    game.bindHooks({setLevel, setMtx, setMessage});
   }, [])
 
   useEffect(() => {
@@ -43,6 +45,7 @@ function App() {
     <div className={`app ${isRun ? 'running' : ''} `}>
       <Display score={score} isRun={isRun} misses={misses} level={level} />
       <Holes holesCount={game.getHolesCount()} mtx={mtx} holeClickHandler={holeClickHandler} />
+      <Message message={message} />
       <Btn handler={startStopHandler} isRun={isRun} />
     </div>
   );

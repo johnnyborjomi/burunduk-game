@@ -26,9 +26,10 @@ export default class Game {
         return this.currentLevel;
     }
 
-    bindHooks ({setLevel, setMtx}) {
+    bindHooks ({setLevel, setMtx, setMessage}) {
         this.setLevel = setLevel;
         this.setMtxCallback = setMtx;
+        this.setMessage = setMessage;
     }
 
     generateMtx (count) {
@@ -64,8 +65,16 @@ export default class Game {
         this.currentLevel++;
         this.setLevel(this.currentLevel);
         this.holesCount = levels[this.currentLevel].holesCount;
-        this.setMtxCallback(this.generateMtx(this.holesCount));
-        this.runEvents();
+        
+        this.showMessage({
+            text: `Level ${this.currentLevel}!!!`, 
+            status: 'success'
+        });
+        setTimeout(() => {
+            this.hideMessage();
+            this.setMtxCallback(this.generateMtx(this.holesCount));
+            this.runEvents();
+        }, 1500)
     }
 
     sucessState (score, item) {
@@ -86,6 +95,18 @@ export default class Game {
             this.runEvents();
             setTimeout(() => this.unkill(item.num), this.unkillAnimationDelay);
         }, this.killAnimationDuration);
+    }
+
+    showMessage(message) {
+        this.setMtxCallback([]);
+        this.setMessage(message);
+    }
+
+    hideMessage() {
+        this.setMessage({
+            message: '',
+            status: ''
+        });
     }
 
     missState (item) {
