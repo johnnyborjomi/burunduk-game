@@ -38,7 +38,8 @@ export default class Game {
                 active: false, 
                 num: i,
                 id: uuid(),
-                isKilled: false
+                isKilled: false,
+                isMissed: false
             }));
     }
 
@@ -47,7 +48,7 @@ export default class Game {
     }
 
     generateEvent () {
-        const showTime = this.getTimeRange(10, 3000);
+        const showTime = this.getTimeRange(200, 3000);
         const stayTime = this.getTimeRange(500, 4000);
         const hideTime = showTime + stayTime;
         const activeHole = Math.round(Math.random() * (this.holesCount - 1));
@@ -87,6 +88,11 @@ export default class Game {
         }, this.killAnimationDuration);
     }
 
+    missState (item) {
+        this.miss(item.num);
+        setTimeout(() => this.unMiss(item.num), this.unkillAnimationDelay);
+    }
+
     kill (num) {
         this.setMtxCallback(mtx => this.mtxSetter(mtx, num, 'isKilled', true));
     }
@@ -101,6 +107,14 @@ export default class Game {
 
     show (num) {
         this.setMtxCallback(mtx => this.mtxSetter(mtx, num, 'active', true));
+    }
+
+    miss (num) {
+        this.setMtxCallback(mtx => this.mtxSetter(mtx, num, 'isMissed', true));
+    }
+
+    unMiss (num) {
+        this.setMtxCallback(mtx => this.mtxSetter(mtx, num, 'isMissed', false));
     }
 
     mtxSetter (mtx, num, prop, val) {

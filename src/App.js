@@ -35,11 +35,12 @@ function App() {
       game.sucessState(score, item);
     } else if (!item.active && isRun) {
       setMisses(miss => miss + 1);
+      game.missState(item);
     }
   }
 
   return (
-    <div className="app">
+    <div className={`app ${isRun ? 'running' : ''} `}>
       <Display score={score} isRun={isRun} misses={misses} level={level} />
       <Holes holesCount={game.getHolesCount()} mtx={mtx} holeClickHandler={holeClickHandler} />
       <Btn handler={startStopHandler} isRun={isRun} />

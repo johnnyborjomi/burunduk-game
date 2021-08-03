@@ -1,6 +1,7 @@
 :root {
   --w-width: 80vw;
   --w-height: 80vh;
+  --hole-size: 75%;
 }
 
 body {
@@ -26,12 +27,15 @@ body {
   flex-direction: column;
   justify-content: center;
   position: relative;
+  padding: 10px;
 }
 
 .display {
   padding: 10px 0;
   display: flex;
   color: white;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .display > div {
@@ -51,12 +55,6 @@ body {
   max-width: var(--w-height);
   margin: 0 auto;
   border-radius: 20px;
-}
-
-.hole-wrap {
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .field.cols-4 .hole-wrap {
@@ -82,10 +80,53 @@ body {
   height: 20%;
 }
 
+.hole-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.hole-wrap .miss-icon {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 25%;
+  height: 25%;
+  z-index: 10;
+}
+
+.hole-wrap:before {
+  content: '';
+  position: absolute;
+  width: calc(var(--hole-size) + 5%);
+  height: calc(var(--hole-size) + 5%);
+  border: 1.5vw dashed transparent;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  transition: border-color .2s ease, border-width .2s ease;
+}
+
+.app.running .hole-wrap:hover:before {
+  border-color: red;
+}
+
+.app.running .hole-wrap.active:hover:before {
+  border-color: green;
+}
+
+.hole-wrap.active.killed:before {
+  border-width: 3vw;
+  border-style: dashed;
+  border-color:green;
+}
+
 .hole {
-  width: 75%;
-  height: 75%;
-  border: 4px solid green;
+  width: var(--hole-size);
+  height: var(--hole-size);
   border-radius: 50%;
   background-color: rgb(30, 13, 3);
   color: white;
@@ -95,20 +136,19 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background-color .6s ease; 
+  transition: background-color .6s ease, border-width .2s;
 }
 
 .hole:hover {
   cursor: crosshair;
-  border-color: red;
-}
-
-.hole.active:hover {
-  border-width: 10px;
 }
 
 .hole.active {
   background-color: rgb(83, 6, 6);
+}
+
+.hole.missed {
+  background-color: red;
 }
 
 .btn {
@@ -138,11 +178,11 @@ body {
   transition: transform 500ms ease-in-out; 
 }
 
-.badger-img.visible {
+.badger-img.active {
   transform: translateY(0);
 }
 
-.badger-img.killed.visible {
+.badger-img.killed.active {
   transition: transform 100ms;
   transform: translateY(0) rotate(90deg);
 }
@@ -150,4 +190,5 @@ body {
 .badger-img.killed {
   transition: transform 200ms ease-in;
   transform: translateY(150%) rotate(90deg);
+  filter: brightness(2) grayscale(1);
 }
