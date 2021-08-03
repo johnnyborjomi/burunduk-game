@@ -13,7 +13,6 @@ export default class Game {
 
     constructor () {
         this.holesCount = levels[this.currentLevel].holesCount;
-        this.holesMtx = this.generateMtx(this.holesCount);
         console.log('game::::::', this)
     }
 
@@ -25,8 +24,9 @@ export default class Game {
         return this.currentLevel;
     }
 
-    bindHooks ({setLevel}) {
+    bindHooks ({setLevel, setMtx}) {
         this.setLevel = setLevel;
+        this.setMtxCallback = setMtx;
     }
 
     generateMtx (count) {
@@ -39,9 +39,13 @@ export default class Game {
             }));
     }
 
+    getTimeRange (min, max) {
+        return Math.floor(min + Math.random() * (max + 1 - min));
+    }
+
     generateEvent () {
-        const showTime = Math.round(Math.random() * 2000);
-        const stayTime = Math.round(Math.random() * 5000);
+        const showTime = this.getTimeRange(10, 3000);
+        const stayTime = this.getTimeRange(100, 4000);
         const hideTime = showTime + stayTime;
         const activeHole = Math.round(Math.random() * (this.holesCount - 1));
         return {
@@ -57,7 +61,7 @@ export default class Game {
         this.setLevel(this.currentLevel);
         this.holesCount = levels[this.currentLevel].holesCount;
         this.setMtxCallback(this.generateMtx(this.holesCount));
-        this.runEvents(this.setMtxCallback);
+        this.runEvents();
     }
 
     sucessState (score) {
@@ -67,7 +71,7 @@ export default class Game {
             return
         }
         this.clearEvents();
-        this.runEvents(this.setMtxCallback);
+        this.runEvents();
     }
 
     clearEvents() {
@@ -104,12 +108,11 @@ export default class Game {
             this.clearEvents();
             return;
         }
-        this.runEvents(this.setMtxCallback);
+        this.runEvents();
     }
 
-    runEvents (_setMtxCb) {
+    runEvents () {
         this.isEventsRunning = true;
-        this.setMtxCallback = _setMtxCb;
         const event = this.generateEvent();
         this.showTimeoutId = setTimeout(() => this.renderEvent(event, true), event.showTime);
         this.hideTimeoutId = setTimeout(() => this.renderEvent(event, false), event.hideTime)

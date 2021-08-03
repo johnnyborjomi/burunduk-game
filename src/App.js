@@ -15,7 +15,7 @@ function App() {
   const [level, setLevel] = useState(game.getLevel());
 
   useEffect(() => {
-    game.bindHooks({setLevel});
+    game.bindHooks({setLevel, setMtx});
   }, [])
 
   useEffect(() => {
