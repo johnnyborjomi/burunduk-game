@@ -6,6 +6,8 @@ export default class Game {
     showTimeoutId = null;
     hideTimeoutId = null;
     currentLevel = 1;
+    killAnimationDuration = 500;
+    unkillAnimationDelay = 200;
 
     //hooks
     setLevel = null;
@@ -36,6 +38,7 @@ export default class Game {
                 active: false, 
                 num: i,
                 id: uuid(),
+                isKilled: false
             }));
     }
 
@@ -45,7 +48,7 @@ export default class Game {
 
     generateEvent () {
         const showTime = this.getTimeRange(10, 3000);
-        const stayTime = this.getTimeRange(100, 4000);
+        const stayTime = this.getTimeRange(500, 4000);
         const hideTime = showTime + stayTime;
         const activeHole = Math.round(Math.random() * (this.holesCount - 1));
         return {
@@ -64,14 +67,45 @@ export default class Game {
         this.runEvents();
     }
 
-    sucessState (score) {
+    sucessState (score, item) {
+        this.kill(item.num);
+
         if (score >= levels[this.currentLevel].scoreToNext) {
-            this.nextLevel();
-            this.clearEvents();
+            setTimeout(() => {
+                this.nextLevel();
+                this.clearEvents();
+            }, this.unkillAnimationDelay);
+            
             return
         }
+
         this.clearEvents();
-        this.runEvents();
+        setTimeout(() => {
+            this.hide(item.num)
+            this.runEvents();
+            setTimeout(() => this.unkill(item.num), this.unkillAnimationDelay);
+        }, this.killAnimationDuration);
+    }
+
+    kill (num) {
+        this.setMtxCallback(mtx => this.mtxSetter(mtx, num, 'isKilled', true));
+    }
+
+    unkill (num) {
+        this.setMtxCallback(mtx => this.mtxSetter(mtx, num, 'isKilled', false));
+    }
+
+    hide (num) {
+        this.setMtxCallback(mtx => this.mtxSetter(mtx, num, 'active', false));
+    }
+
+    show (num) {
+        this.setMtxCallback(mtx => this.mtxSetter(mtx, num, 'active', true));
+    }
+
+    mtxSetter (mtx, num, prop, val) {
+        mtx[num][prop] = val;
+        return [...mtx];
     }
 
     clearEvents() {
@@ -90,11 +124,8 @@ export default class Game {
 
         //render event
         if (isRender) {
-            this.setMtxCallback(mtx => {
-                mtx[event.activeHole].active = true;
-                return [...mtx];
-            });
-
+            this.unkill(event.activeHole)
+            this.show(event.activeHole);
             return;
         } 
 

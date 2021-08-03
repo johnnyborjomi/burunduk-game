@@ -95,6 +95,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: background-color .6s ease; 
 }
 
 .hole:hover {
@@ -107,7 +108,7 @@ body {
 }
 
 .hole.active {
-  background: rgb(83, 6, 6);
+  background-color: rgb(83, 6, 6);
 }
 
 .btn {
@@ -117,6 +118,10 @@ body {
   border: none;
   border-radius: 10px;
   font-weight: bold;
+}
+
+.btn:hover {
+  cursor: pointer;
 }
 
 .btn--start {
@@ -135,4 +140,14 @@ body {
 
 .badger-img.visible {
   transform: translateY(0);
+}
+
+.badger-img.killed.visible {
+  transition: transform 100ms;
+  transform: translateY(0) rotate(90deg);
+}
+
+.badger-img.killed {
+  transition: transform 200ms ease-in;
+  transform: translateY(150%) rotate(90deg);
 }

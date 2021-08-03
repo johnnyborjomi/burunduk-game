@@ -32,8 +32,7 @@ function App() {
   const holeClickHandler = (item) => {
     if (item.active) {
       setScore(score => score + 1);
-      setMtx(mtx => game.generateMtx(game.getHolesCount()));
-      game.sucessState(score);
+      game.sucessState(score, item);
     } else if (!item.active && isRun) {
       setMisses(miss => miss + 1);
     }
