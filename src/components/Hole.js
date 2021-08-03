@@ -10,6 +10,7 @@ export const Hole = ({item, index, handler}) => {
   if (item.isMissed) classes.push('missed');
 
     return (
+        <div className="hole-block">
           <div className={`hole-wrap ${classes.join(' ')}`}>
             {item.isMissed ? <MissIcon className="miss-icon" /> : null}
             <div className={`hole ${classes.join(' ')}`} onClick={handler}>
@@ -18,5 +19,6 @@ export const Hole = ({item, index, handler}) => {
               />
             </div>
           </div>
+        </div>
     )
 }

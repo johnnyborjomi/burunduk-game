@@ -64,25 +64,31 @@ header {
   border-radius: 20px;
 }
 
-.field.cols-4 .hole-wrap {
+.hole-block {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.field.cols-4 .hole-block {
   width: 50%;
   height: 50%;
 }
 
-.field.cols-9 .hole-wrap,
-.field.cols-6 .hole-wrap {
+.field.cols-9 .hole-block,
+.field.cols-6 .hole-block {
   width: 33.33%;
   height: 33.33%;
 }
 
-.field.cols-12 .hole-wrap,
-.field.cols-16 .hole-wrap {
+.field.cols-12 .hole-block,
+.field.cols-16 .hole-block {
   width: 25%;
   height: 25%;
 }
 
-.field.cols-20 .hole-wrap,
-.field.cols-25 .hole-wrap {
+.field.cols-20 .hole-block,
+.field.cols-25 .hole-block {
   width: 20%;
   height: 20%;
 }
@@ -92,6 +98,13 @@ header {
   align-items: center;
   justify-content: center;
   position: relative;
+  width: var(--hole-size);
+  height: var(--hole-size);
+  border-radius: 50%;
+}
+
+.hole-wrap:hover {
+  cursor: crosshair;
 }
 
 .hole-wrap .miss-icon {
@@ -106,9 +119,10 @@ header {
 
 .hole-wrap:before {
   content: '';
+  pointer-events: none;
   position: absolute;
-  width: calc(var(--hole-size) + 5%);
-  height: calc(var(--hole-size) + 5%);
+  width: calc(100% + 5%);
+  height: calc(100% + 5%);
   border: 1.5vw dashed transparent;
   top: 50%;
   left: 50%;
@@ -132,8 +146,8 @@ header {
 }
 
 .hole {
-  width: var(--hole-size);
-  height: var(--hole-size);
+  width: 100%;
+  height: 100%;
   border-radius: 50%;
   background-color: rgb(30, 13, 3);
   color: white;
@@ -144,10 +158,6 @@ header {
   align-items: center;
   justify-content: center;
   transition: background-color .6s ease, border-width .2s;
-}
-
-.hole:hover {
-  cursor: crosshair;
 }
 
 .hole.active {
