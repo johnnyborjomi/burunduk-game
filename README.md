@@ -1,4 +1,4 @@
- https://johnnyborjomi.github.io/burunduk-game/
+ https://johnnyborjomi.github.io/burunduk-game/build/
 
 # Getting Started with Create React App
 
