@@ -131,12 +131,20 @@ header {
   transition: border-color .2s ease, border-width .2s ease;
 }
 
-.app.running .hole-wrap:hover:before {
-  border-color: red;
+@media (hover: hover) {
+  .app.running .hole-wrap:hover:before {
+    border-color: red;
+  }
+
+  .app.running .hole-wrap.active:hover:before {
+    border-color: green;
+  }
 }
 
-.app.running .hole-wrap.active:hover:before {
-  border-color: green;
+@media (hover: none) {
+  .app.running .hole-wrap.missed:before {
+    border-color: red;
+  }
 }
 
 .hole-wrap.active.killed:before {
