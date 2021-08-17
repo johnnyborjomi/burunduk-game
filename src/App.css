@@ -2,6 +2,7 @@
   --w-width: 80vw;
   --w-height: 80vh;
   --hole-size: 75%;
+  --c-red: rgb(197, 37, 37);
 }
 
 body {
@@ -19,7 +20,7 @@ body {
 header {
   position: absolute;
   top: 3px;
-  color: red;
+  color: var(--c-red);
   font-weight: bold;
 }
 
@@ -37,209 +38,23 @@ header {
   padding: 10px;
 }
 
-.display {
-  padding: 10px 0;
-  display: flex;
-  color: white;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.display > div {
-  margin: 0 10px;
-}
-
-.field {
-  text-align: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  background:rgb(217, 172, 57);
-  height: var(--w-width);
-  width: var(--w-width);
-  max-height: var(--w-height);
-  max-width: var(--w-height);
-  margin: 0 auto;
-  border-radius: 20px;
-}
-
-.hole-block {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.field.cols-4 .hole-block {
-  width: 50%;
-  height: 50%;
-}
-
-.field.cols-9 .hole-block,
-.field.cols-6 .hole-block {
-  width: 33.33%;
-  height: 33.33%;
-}
-
-.field.cols-12 .hole-block,
-.field.cols-16 .hole-block {
-  width: 25%;
-  height: 25%;
-}
-
-.field.cols-20 .hole-block,
-.field.cols-25 .hole-block {
-  width: 20%;
-  height: 20%;
-}
-
-.hole-wrap {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  width: var(--hole-size);
-  height: var(--hole-size);
-  border-radius: 50%;
-}
-
-.hole-wrap:hover {
-  cursor: crosshair;
-}
-
-.hole-wrap .miss-icon {
-  position: absolute;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 25%;
-  height: 25%;
-  z-index: 10;
-}
-
-.hole-wrap:before {
-  content: '';
-  pointer-events: none;
-  position: absolute;
-  width: calc(100% + 5%);
-  height: calc(100% + 5%);
-  border: 1.5vw dashed transparent;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  border-radius: 50%;
-  transition: border-color .2s ease, border-width .2s ease;
-}
-
 @media (hover: hover) {
-  .app.running .hole-wrap:hover:before {
-    border-color: red;
+  .app.running .hole_wrap:hover:before {
+    border-color: var(--c-red);
   }
 
-  .app.running .hole-wrap.active:hover:before {
+  .app.running .hole_wrap.active:hover:before {
     border-color: green;
   }
 }
 
 @media (hover: none) {
   .app.running .hole-wrap.missed:before {
-    border-color: red;
+    border-color: var(--c-red);
   }
 }
 
-.hole-wrap.active.killed:before {
-  border-width: 3vw;
-  border-style: dashed;
-  border-color:green;
-}
 
-.hole {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  background-color: rgb(30, 13, 3);
-  color: white;
-  box-shadow: inset 0px 30px black;
-  overflow: hidden;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background-color .6s ease, border-width .2s;
-}
 
-.hole.active {
-  background-color: rgb(83, 6, 6);
-}
 
-.hole.missed {
-  background-color: red;
-}
 
-.btn {
-  padding: 12px 30px;
-  margin-top: 20px;
-  
-  border: none;
-  border-radius: 10px;
-  font-weight: bold;
-}
-
-.btn:hover {
-  cursor: pointer;
-}
-
-.btn--start {
-  background-color: chartreuse;
-}
-
-.btn--stop {
-  background-color: rgb(197, 37, 37);
-}
-
-.badger-img {
-  max-width: 80%;
-  transform: translateY(150%);
-  transition: transform 500ms ease-in-out; 
-}
-
-.badger-img.active {
-  transform: translateY(0);
-}
-
-.badger-img.killed.active {
-  transition: transform 100ms;
-  transform: translateY(0) rotate(90deg);
-}
-
-.badger-img.killed {
-  transition: transform 200ms ease-in;
-  transform: translateY(150%) rotate(90deg);
-  filter: brightness(2) grayscale(1);
-}
-
-.message {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-weight: bold;
-  font-size: 12vw;
-  margin: 0;
-  font-style: italic;
-  color: white;
-  text-shadow: 5px 5px black;
-  text-transform: uppercase;
-  width: 100%;
-  text-align: center;
-}
-
-.message.success {
-  color: green;
-  text-shadow: 5px 5px darkgreen;
-}
-
-.message.alert {
-  color: red;
-  text-shadow: 5px 5px darkred;
-}

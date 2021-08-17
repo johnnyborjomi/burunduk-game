@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import './App.css';
 import Game from './game.service';
-import {Display} from './components/Display';
-import {Btn} from './components/Btn';
-import {Holes} from './components/Holes';
-import {Message} from './components/Message';
+import {Display} from './components/Display/Display';
+import {Btn} from './components/Btn/Btn';
+import {Holes} from './components/Holes/Holes';
+import {Message} from './components/Messages/Message';
 
 const game = new Game();
 

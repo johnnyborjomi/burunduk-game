@@ -1,0 +1,11 @@
+.display {
+  padding: 10px 0;
+  display: flex;
+  color: white;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.display > div {
+  margin: 0 10px;
+}

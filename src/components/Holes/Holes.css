@@ -1,0 +1,37 @@
+.field {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  background: rgb(217, 172, 57);
+  height: var(--w-width);
+  width: var(--w-width);
+  max-height: var(--w-height);
+  max-width: var(--w-height);
+  margin: 0 auto;
+  border-radius: 20px;
+}
+
+.field.cols-4 .hole_block {
+  width: 50%;
+  height: 50%;
+}
+
+.field.cols-9 .hole_block,
+.field.cols-6 .hole_block {
+  width: 33.33%;
+  height: 33.33%;
+}
+
+.field.cols-12 .hole_block,
+.field.cols-16 .hole_block {
+  width: 25%;
+  height: 25%;
+}
+
+.field.cols-20 .hole_block,
+.field.cols-25 .hole_block {
+  width: 20%;
+  height: 20%;
+}

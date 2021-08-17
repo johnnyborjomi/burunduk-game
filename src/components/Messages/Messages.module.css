@@ -1,0 +1,25 @@
+.message {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: bold;
+  font-size: 12vw;
+  margin: 0;
+  font-style: italic;
+  color: white;
+  text-shadow: 5px 5px black;
+  text-transform: uppercase;
+  width: 100%;
+  text-align: center;
+}
+
+.success {
+  color: green;
+  text-shadow: 5px 5px darkgreen;
+}
+
+.alert {
+  color: var(--c-red);
+  text-shadow: 5px 5px darkred;
+}

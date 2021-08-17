@@ -1,9 +1,10 @@
 import React from 'react';
-import {Timer} from './Timer';
+import {Timer} from './Timer/Timer';
+import stl from './Display.module.css';
 
 export const Display = ({score, isRun, misses, level}) => {
     return (
-        <div className="display">
+        <div className={stl.display}>
             <Timer isRun={isRun}/>
             <div className="score">
                 Score: {score}
