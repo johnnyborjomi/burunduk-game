@@ -1,3 +1,4 @@
+import {connect} from 'react-redux';
 import { useState, useEffect } from 'react';
 import './App.css';
 import Game from './game.service';
@@ -5,16 +6,12 @@ import {Display} from './components/Display/Display';
 import {Btn} from './components/Btn/Btn';
 import {Holes} from './components/Holes/Holes';
 import {Message} from './components/Messages/Message';
-// import store from './store/store';
-import { isGameRunCreator } from './store/reducers/game-run';
 
 
 const game = new Game();
 
-function App({store}) {
+function App({isRun}) {
   const [mtx, setMtx] = useState(game.generateMtx(game.getHolesCount()));
-  // const [isRun, setIsRun] = useState(false);
-  const isRun = store.getState().isGameRun;
   const [score, setScore] = useState(0);
   const [misses, setMisses] = useState(0);
   const [level, setLevel] = useState(game.getLevel());
@@ -33,11 +30,6 @@ function App({store}) {
     }
   }, [isRun]);
 
-  const startStopHandler = () => {
-    store.dispatch(isGameRunCreator(!isRun));
-    // setIsRun(run => !run);
-  }
-
   const holeClickHandler = (item) => {
     if (item.active) {
       setScore(score => score + 1);
@@ -53,9 +45,11 @@ function App({store}) {
       <Display score={score} isRun={isRun} misses={misses} level={level} />
       <Holes holesCount={game.getHolesCount()} mtx={mtx} holeClickHandler={holeClickHandler} />
       <Message message={message} />
-      <Btn handler={startStopHandler} isRun={isRun} />
+      <Btn />
     </div>
   );
 }
 
-export default App;
+const mapStateToProps = state => ({isRun: state.isGameRun});
+
+export default connect(mapStateToProps)(App);
