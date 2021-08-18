@@ -5,12 +5,16 @@ import {Display} from './components/Display/Display';
 import {Btn} from './components/Btn/Btn';
 import {Holes} from './components/Holes/Holes';
 import {Message} from './components/Messages/Message';
+// import store from './store/store';
+import { isGameRunCreator } from './store/reducers/game-run';
+
 
 const game = new Game();
 
-function App() {
+function App({store}) {
   const [mtx, setMtx] = useState(game.generateMtx(game.getHolesCount()));
-  const [isRun, setIsRun] = useState(false);
+  // const [isRun, setIsRun] = useState(false);
+  const isRun = store.getState().isGameRun;
   const [score, setScore] = useState(0);
   const [misses, setMisses] = useState(0);
   const [level, setLevel] = useState(game.getLevel());
@@ -29,7 +33,10 @@ function App() {
     }
   }, [isRun]);
 
-  const startStopHandler = () => setIsRun(run => !run);
+  const startStopHandler = () => {
+    store.dispatch(isGameRunCreator(!isRun));
+    // setIsRun(run => !run);
+  }
 
   const holeClickHandler = (item) => {
     if (item.active) {
