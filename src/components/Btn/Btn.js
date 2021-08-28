@@ -1,13 +1,13 @@
 import React from 'react';
 import stl from './Btn.module.css';
 
-export const Btn = ({handler, isRun}) => {
+export const Btn = ({handler, btnState}) => {
     return (
         <button 
-            className={`${stl.btn} ${isRun ? stl.btn_stop : stl.btn_start}`} 
+            className={`${stl.btn} ${btnState ? stl.btn_stop : stl.btn_start}`} 
             onClick={handler}
         >
-            {isRun ? 'Stop' : 'Start'}
+            {btnState ? 'Stop' : 'Start'}
         </button>
     )
 }

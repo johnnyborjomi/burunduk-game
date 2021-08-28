@@ -1,5 +1,8 @@
 import levels from './levels.config';
 import { v4 as uuid } from 'uuid';
+// import run from './store/run';
+// import lvl from './store/level';
+// import scr from './store/score';
 
 export default class Game {
     isEventsRunning = false;
@@ -12,6 +15,7 @@ export default class Game {
     //hooks
     setLevel = null;
     setMtxCallback = null;
+    setMessage = null;
 
     constructor () {
         this.holesCount = levels[this.currentLevel].holesCount;

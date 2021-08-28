@@ -1,11 +1,11 @@
 const levelsConfig = {
     1: {
         holesCount: 4,
-        scoreToNext: 5
+        scoreToNext: 2
     },
     2: {
         holesCount: 9,
-        scoreToNext: 15
+        scoreToNext: 5
     },
     3: {
         holesCount: 12,

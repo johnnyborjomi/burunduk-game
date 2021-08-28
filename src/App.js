@@ -1,20 +1,26 @@
 import { useState, useEffect } from 'react';
+import {observer} from 'mobx-react-lite';
 import './App.css';
 import Game from './game.service';
 import {Display} from './components/Display/Display';
 import {Btn} from './components/Btn/Btn';
 import {Holes} from './components/Holes/Holes';
 import {Message} from './components/Messages/Message';
+import run from './store/run';
+import lvl from './store/level';
+import scr from './store/score';
+
 
 const game = new Game();
+const setLevel = lvl.setLevel.bind(lvl);
 
-function App() {
+
+const App = observer(() => {
   const [mtx, setMtx] = useState(game.generateMtx(game.getHolesCount()));
-  const [isRun, setIsRun] = useState(false);
-  const [score, setScore] = useState(0);
   const [misses, setMisses] = useState(0);
-  const [level, setLevel] = useState(game.getLevel());
   const [message, setMessage] = useState({text: '', status: ''});
+  const {isRun, toggleIsRun} = run;
+  const {score, setScore} = scr;
 
   useEffect(() => {
     game.bindHooks({setLevel, setMtx, setMessage});
@@ -29,11 +35,9 @@ function App() {
     }
   }, [isRun]);
 
-  const startStopHandler = () => setIsRun(run => !run);
-
   const holeClickHandler = (item) => {
     if (item.active) {
-      setScore(score => score + 1);
+      setScore.call(scr);
       game.sucessState(score, item);
     } else if (!item.active && isRun) {
       setMisses(miss => miss + 1);
@@ -43,12 +47,12 @@ function App() {
 
   return (
     <div className={`app ${isRun ? 'running' : ''} `}>
-      <Display score={score} isRun={isRun} misses={misses} level={level} />
+      <Display misses={misses} />
       <Holes holesCount={game.getHolesCount()} mtx={mtx} holeClickHandler={holeClickHandler} />
       <Message message={message} />
-      <Btn handler={startStopHandler} isRun={isRun} />
+      <Btn handler={toggleIsRun.bind(run)} btnState={isRun} />
     </div>
   );
-}
+})
 
 export default App;
