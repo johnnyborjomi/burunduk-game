@@ -4,7 +4,7 @@ import { v4 as uuid } from 'uuid';
 // import lvl from './store/level';
 // import scr from './store/score';
 
-export default class Game {
+class Game {
     isEventsRunning = false;
     showTimeoutId = null;
     hideTimeoutId = null;
@@ -192,3 +192,5 @@ export default class Game {
         this.isEventsRunning = false;
     }
 }
+
+export default new Game();

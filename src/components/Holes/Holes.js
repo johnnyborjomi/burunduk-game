@@ -7,8 +7,7 @@ export const Holes = ({holesCount, mtx, holeClickHandler}) => {
         <div className={`field cols-${holesCount}`}>
             { mtx.map(item => <Hole 
                 key={`${item.id}`}
-                item={item} 
-                handler={() => holeClickHandler(item)} 
+                item={item}  
             />) }
         </div>
     )

@@ -2,22 +2,21 @@ import React from 'react';
 import {Timer} from './Timer/Timer';
 import stl from './Display.module.css';
 import {observer} from 'mobx-react-lite';
-import lvl from '../../store/level';
-import scr from '../../store/score';
+import display from '../../store/display';
 
 
-export const Display = observer(({misses}) => {
+export const Display = observer(() => {
     return (
         <div className={stl.display}>
             <Timer />
             <div className="score">
-                Score: {scr.score}
+                Score: {display.score}
             </div>
             <div className="misses">
-                Misses: {misses}
+                Misses: {display.misses}
             </div>
             <div className="level">
-                Level: {lvl.level}
+                Level: {display.level}
             </div>
         </div>
     )
