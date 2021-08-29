@@ -18,10 +18,6 @@ class Game {
         console.log('game::::::', this)
     }
 
-    getHolesCount () {
-        return this.runtimeStore.holeCount
-    }
-
     getLevel () {
         return this.runtimeStore.currentLevel
     }
@@ -146,6 +142,15 @@ class Game {
         this.runEvents()
     }
 
+    toggleGameRun() {
+        runtimeStore.toggleIsRun();
+        if (runtimeStore.isRun) {
+            this.runEvents()
+        } else {
+            this.stopEvents()
+        }
+    }
+
     runEvents () {
         this.isEventsRunning = true
         const event = this.generateEvent()
@@ -154,7 +159,9 @@ class Game {
     }
 
     stopEvents () {
+        this.clearEvents()
         this.isEventsRunning = false
+        this.runtimeStore.generateMtx()
     }
 }
 

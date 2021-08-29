@@ -9,24 +9,13 @@ import {Message} from './components/Messages/Message'
 import runtimeStore from './store/runtime'
 
 const App = observer(() => {
-  const {isRun, toggleIsRun} = runtimeStore
-
-  console.log('storemtx', runtimeStore.mtx)
-
-  useEffect(() => {
-    if (isRun) {
-      game.runEvents()
-    } else {
-      game.stopEvents()
-    }
-  }, [isRun])
 
   return (
-    <div className={`app ${isRun ? 'running' : ''} `}>
+    <div className={`app ${runtimeStore.isRun ? 'running' : ''} `}>
       <Display />
       <Holes />
       <Message />
-      <Btn handler={toggleIsRun.bind(runtimeStore)} btnState={isRun} />
+      <Btn handler={game.toggleGameRun.bind(game)} btnState={runtimeStore.isRun} />
     </div>
   )
 })
