@@ -6,11 +6,11 @@ import {Display} from './components/Display/Display'
 import {Btn} from './components/Btn/Btn'
 import {Holes} from './components/Holes/Holes'
 import {Message} from './components/Messages/Message'
-import runtime from './store/runtime'
+import runtimeStore from './store/runtime'
 
 const App = observer(() => {
   const [mtx, setMtx] = useState(game.generateMtx(game.getHolesCount()))
-  const {isRun, toggleIsRun} = runtime
+  const {isRun, toggleIsRun} = runtimeStore
 
   useEffect(() => {
     game.bindHooks({setMtx})
@@ -30,7 +30,7 @@ const App = observer(() => {
       <Display />
       <Holes holesCount={game.getHolesCount()} mtx={mtx} />
       <Message />
-      <Btn handler={toggleIsRun.bind(runtime)} btnState={isRun} />
+      <Btn handler={toggleIsRun.bind(runtimeStore)} btnState={isRun} />
     </div>
   )
 })

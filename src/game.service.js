@@ -1,6 +1,5 @@
 import levels from './levels.config'
 import { v4 as uuid } from 'uuid'
-import displayStore from './store/display'
 import messageStore from './store/message'
 import runtimeStore from './store/runtime'
 
@@ -8,7 +7,6 @@ class Game {
     isEventsRunning = false
     showTimeoutId = null
     hideTimeoutId = null
-    currentLevel = 1
     killAnimationDuration = 500
     unkillAnimationDelay = 200
 
@@ -17,20 +15,19 @@ class Game {
 
     constructor ({
         messageStore,
-        displayStore
+        runtimeStore
     }) {
         this.messageStore = messageStore
-        this.displayStore = displayStore
-        this.holesCount = levels[this.currentLevel].holesCount
+        this.runtimeStore = runtimeStore
         console.log('game::::::', this)
     }
 
     getHolesCount () {
-        return this.holesCount
+        return this.runtimeStore.holeCount
     }
 
     getLevel () {
-        return this.currentLevel
+        return this.runtimeStore.currentLevel
     }
 
     bindHooks ({setMtx}) {
@@ -57,7 +54,7 @@ class Game {
         const showTime = this.getTimeRange(200, 3000)
         const stayTime = this.getTimeRange(500, 4000)
         const hideTime = showTime + stayTime
-        const activeHole = Math.round(Math.random() * (this.holesCount - 1))
+        const activeHole = Math.round(Math.random() * (this.runtimeStore.holeCount - 1))
         return {
             showTime,
             stayTime,
@@ -67,17 +64,15 @@ class Game {
     }
 
     nextLevel () {
-        this.currentLevel++
-        this.displayStore.setLevel(this.currentLevel)
-        this.holesCount = levels[this.currentLevel].holesCount
+        this.runtimeStore.setLevel()
         
         this.showMessage({
-            text: `Level ${this.currentLevel}!!!`, 
+            text: `Level ${this.runtimeStore.level}!!!`, 
             status: 'success'
         })
         setTimeout(() => {
             this.hideMessage()
-            this.setMtxCallback(this.generateMtx(this.holesCount))
+            this.setMtxCallback(this.generateMtx(this.runtimeStore.holeCount))
             this.runEvents()
         }, 1500)
     }
@@ -85,7 +80,7 @@ class Game {
     sucessState (score, item) {
         this.kill(item.num)
 
-        if (score >= levels[this.currentLevel].scoreToNext) {
+        if (score >= levels[this.runtimeStore.level].scoreToNext) {
             setTimeout(() => {
                 this.nextLevel()
                 this.clearEvents()
@@ -193,5 +188,5 @@ class Game {
 
 export default new Game({
     messageStore,
-    displayStore
+    runtimeStore
 })

@@ -2,15 +2,13 @@ import React from 'react'
 import {ReactComponent as BadgerImg} from '../../../icons/badger.svg'
 import {ReactComponent as MissIcon} from '../../../icons/cancel.svg'
 import './Hole.css'
-import display from '../../../store/display'
 import game from '../../../game.service'
 import runtime from '../../../store/runtime'
 
 
 export const Hole = ({item}) => {
 
-  const {score, setScore, setMisses} = display
-  const {isRun} = runtime
+  const {score, setScore, setMisses, isRun} = runtime
 
   const classes = []
   if (item.isKilled) classes.push('killed')
@@ -19,10 +17,10 @@ export const Hole = ({item}) => {
 
   const holeClickHandler = (item) => {
     if (item.active) {
-      setScore.call(display)
+      setScore.call(runtime)
       game.sucessState(score, item)
     } else if (!item.active && isRun) {
-      setMisses.call(display)
+      setMisses.call(runtime)
       game.missState(item)
     }
   }
