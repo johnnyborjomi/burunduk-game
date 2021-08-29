@@ -1,8 +1,8 @@
-import React from 'react';
-import {Timer} from './Timer/Timer';
-import stl from './Display.module.css';
-import {observer} from 'mobx-react-lite';
-import display from '../../store/display';
+import React from 'react'
+import {Timer} from './Timer/Timer'
+import stl from './Display.module.css'
+import {observer} from 'mobx-react-lite'
+import display from '../../store/display'
 
 
 export const Display = observer(() => {

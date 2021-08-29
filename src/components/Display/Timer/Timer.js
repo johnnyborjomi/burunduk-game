@@ -1,22 +1,22 @@
-import React, {useState, useEffect} from 'react';
-import run from '../../../store/run';
-import {observer} from 'mobx-react-lite';
+import React, {useState, useEffect} from 'react'
+import runtime from '../../../store/runtime'
+import {observer} from 'mobx-react-lite'
 
-let interval = null;
+let interval = null
 
 export const Timer = observer(() => {
-  const [time, setTime] = useState(0);
-  const {isRun} = run;
+  const [time, setTime] = useState(0)
+  const {isRun} = runtime
 
    useEffect(() => {
       if (isRun) {
         interval = setInterval(() => {
-          setTime(prev => prev + 1);
-        }, 1000);
+          setTime(prev => prev + 1)
+        }, 1000)
       } else {
-        clearInterval(interval);
+        clearInterval(interval)
       }
-    }, [isRun]);
+    }, [isRun])
 
    return <div className="timer">Timer: {time}</div>
 })

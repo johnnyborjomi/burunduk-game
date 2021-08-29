@@ -1,6 +1,6 @@
-import React from 'react';
-import {Hole} from './Hole/Hole';
-import './Holes.css';
+import React from 'react'
+import {Hole} from './Hole/Hole'
+import './Holes.css'
 
 export const Holes = ({holesCount, mtx, holeClickHandler}) => {
     return (

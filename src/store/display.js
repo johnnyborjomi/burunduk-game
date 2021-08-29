@@ -1,12 +1,12 @@
-import {makeAutoObservable} from 'mobx';
+import {makeAutoObservable} from 'mobx'
 
 class Display {
-    score = 0;
-    level = 1;
-    misses = 0;
+    score = 0
+    level = 1
+    misses = 0
 
     constructor() {
-        makeAutoObservable(this);
+        makeAutoObservable(this)
     }
 
     setMisses(val) {
@@ -26,4 +26,4 @@ class Display {
     }
 }
 
-export default new Display();
+export default new Display()
