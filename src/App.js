@@ -28,7 +28,7 @@ const App = observer(() => {
   return (
     <div className={`app ${isRun ? 'running' : ''} `}>
       <Display />
-      <Holes holesCount={game.getHolesCount()} mtx={mtx} />
+      <Holes mtx={mtx} />
       <Message />
       <Btn handler={toggleIsRun.bind(runtimeStore)} btnState={isRun} />
     </div>
