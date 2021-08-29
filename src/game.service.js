@@ -1,5 +1,4 @@
 import levels from './levels.config'
-import { v4 as uuid } from 'uuid'
 import messageStore from './store/message'
 import runtimeStore from './store/runtime'
 
@@ -9,9 +8,6 @@ class Game {
     hideTimeoutId = null
     killAnimationDuration = 500
     unkillAnimationDelay = 200
-
-    //hooks
-    setMtxCallback = null
 
     constructor ({
         messageStore,
@@ -28,22 +24,6 @@ class Game {
 
     getLevel () {
         return this.runtimeStore.currentLevel
-    }
-
-    bindHooks ({setMtx}) {
-        this.setMtxCallback = setMtx
-    }
-
-    generateMtx (count) {
-        return new Array(count)
-            .fill('')
-            .map((item, i) => ({ 
-                active: false, 
-                num: i,
-                id: uuid(),
-                isKilled: false,
-                isMissed: false
-            }))
     }
 
     getTimeRange (min, max) {
@@ -64,7 +44,7 @@ class Game {
     }
 
     nextLevel () {
-        this.runtimeStore.setLevel()
+        this.runtimeStore.setNextLevel()
         
         this.showMessage({
             text: `Level ${this.runtimeStore.level}!!!`, 
@@ -72,7 +52,7 @@ class Game {
         })
         setTimeout(() => {
             this.hideMessage()
-            this.setMtxCallback(this.generateMtx(this.runtimeStore.holeCount))
+            this.runtimeStore.generateMtx();
             this.runEvents()
         }, 1500)
     }
@@ -98,7 +78,7 @@ class Game {
     }
 
     showMessage(message) {
-        this.setMtxCallback([])
+        this.runtimeStore.resetMtx();
         this.messageStore.setMessage(message)
     }
 
@@ -112,32 +92,27 @@ class Game {
     }
 
     kill (num) {
-        this.setMtxCallback(mtx => this.mtxSetter(mtx, num, 'isKilled', true))
+        this.runtimeStore.setMtxProp(num, 'isKilled', true)
     }
 
     unkill (num) {
-        this.setMtxCallback(mtx => this.mtxSetter(mtx, num, 'isKilled', false))
+        this.runtimeStore.setMtxProp(num, 'isKilled', false)
     }
 
     hide (num) {
-        this.setMtxCallback(mtx => this.mtxSetter(mtx, num, 'active', false))
+        this.runtimeStore.setMtxProp(num, 'active', false)
     }
 
     show (num) {
-        this.setMtxCallback(mtx => this.mtxSetter(mtx, num, 'active', true))
+        this.runtimeStore.setMtxProp(num, 'active', true)
     }
 
     miss (num) {
-        this.setMtxCallback(mtx => this.mtxSetter(mtx, num, 'isMissed', true))
+        this.runtimeStore.setMtxProp(num, 'isMissed', true)
     }
 
     unMiss (num) {
-        this.setMtxCallback(mtx => this.mtxSetter(mtx, num, 'isMissed', false))
-    }
-
-    mtxSetter (mtx, num, prop, val) {
-        mtx[num][prop] = val
-        return [...mtx]
+        this.runtimeStore.setMtxProp(num, 'isMissed', false)
     }
 
     clearEvents() {
@@ -162,10 +137,7 @@ class Game {
         } 
 
         //unrender event and call new event if not stopped
-        this.setMtxCallback(mtx => {
-            mtx[event.activeHole].active = false
-            return [...mtx]
-        })
+        this.runtimeStore.setMtxProp(event.activeHole, 'active', false);
 
         if (!this.isEventsRunning) {
             this.clearEvents()

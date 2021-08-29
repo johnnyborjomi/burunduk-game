@@ -1,15 +1,42 @@
-import {makeAutoObservable} from 'mobx'
+import {makeAutoObservable, makeObservable} from 'mobx'
 import levels from '../levels.config';
 import { v4 as uuid } from 'uuid'
+
+function generateMtx (count) {
+    return new Array(count)
+        .fill('')
+        .map((item, i) => ({ 
+            active: false, 
+            num: i,
+            id: uuid(),
+            isKilled: false,
+            isMissed: false
+        }))
+}
 
 class GameRunTime {
     isRun = false
     level = 1
     score = 0
     misses = 0
+    mtx = generateMtx(levels[this.level].holeCount)
 
     constructor() {
-        makeAutoObservable(this)
+        makeAutoObservable(this, {}, {deep: true})
+    }
+
+    generateMtx() {
+        this.mtx = generateMtx(this.holeCount)
+    }
+
+    resetMtx() {
+        this.mtx = []
+    }
+
+    setMtxProp(num, prop, val) {
+        this.mtx[num][prop] = val
+        //resolve issue with updating
+        this.mtx = [...this.mtx]
     }
 
     setMisses(val) {
@@ -20,7 +47,7 @@ class GameRunTime {
         this.setCounter('score', val)
     }
 
-    setLevel(val) {
+    setNextLevel(val) {
         this.setCounter('level', val)
     }
 
@@ -42,7 +69,6 @@ class GameRunTime {
 
     get holeCount() {
         const count = levels[this.level].holeCount
-        console.log('levels', levels)
 
         console.log('count', count)
         return count

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import {observer} from 'mobx-react-lite'
 import './App.css'
 import game from './game.service'
@@ -9,18 +9,14 @@ import {Message} from './components/Messages/Message'
 import runtimeStore from './store/runtime'
 
 const App = observer(() => {
-  const [mtx, setMtx] = useState(game.generateMtx(game.getHolesCount()))
   const {isRun, toggleIsRun} = runtimeStore
 
-  useEffect(() => {
-    game.bindHooks({setMtx})
-  }, [])
+  console.log('storemtx', runtimeStore.mtx)
 
   useEffect(() => {
     if (isRun) {
-      game.runEvents(setMtx)
+      game.runEvents()
     } else {
-      setMtx(mtx => game.generateMtx(game.getHolesCount()))
       game.stopEvents()
     }
   }, [isRun])
@@ -28,7 +24,7 @@ const App = observer(() => {
   return (
     <div className={`app ${isRun ? 'running' : ''} `}>
       <Display />
-      <Holes mtx={mtx} />
+      <Holes />
       <Message />
       <Btn handler={toggleIsRun.bind(runtimeStore)} btnState={isRun} />
     </div>
