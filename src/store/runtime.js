@@ -1,4 +1,4 @@
-import {makeAutoObservable, makeObservable} from 'mobx'
+import {makeAutoObservable} from 'mobx'
 import levels from '../levels.config';
 import { v4 as uuid } from 'uuid'
 
