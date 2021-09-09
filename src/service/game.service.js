@@ -1,4 +1,4 @@
-import levels from './levels.config';
+import levels from '../levels.config';
 import { v4 as uuid } from 'uuid';
 
 export default class Game {

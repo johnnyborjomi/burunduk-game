@@ -28,6 +28,7 @@ header {
   display: flex;
   align-items: center;
   justify-content: center;
+  color: white;
 }
 
 .app {
@@ -52,6 +53,16 @@ header {
   .app.running .hole-wrap.missed:before {
     border-color: var(--c-red);
   }
+}
+
+fieldset {
+  border-radius: 10px;
+}
+
+.form-field {
+  margin: 10px 0;
+  display: flex;
+  flex-direction: column;
 }
 
 
