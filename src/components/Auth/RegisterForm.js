@@ -1,6 +1,13 @@
 import React from "react";
+import {addUser} from '../../firebase/index';
 
 const LoginForm = () => {
+    
+    const submit = e => {
+        e.preventDefault();
+        addUser({name: 'petya', password: 'loh'})
+    }
+
     return (
         <form>
             <fieldset>
@@ -14,7 +21,7 @@ const LoginForm = () => {
                     <input type="password" placeholder="Password" />
                 </div>
                 <div className="form-field">
-                    <input type="submit" value="Register" />
+                    <input onClick={submit} type="submit" value="Register" />
                 </div>
             </fieldset>
         </form>
