@@ -1,71 +1,79 @@
 :root {
-  --w-width: 80vw;
-  --w-height: 80vh;
-  --hole-size: 75%;
-  --c-red: rgb(197, 37, 37);
+    --w-width: 80vw;
+    --w-height: 80vh;
+    --hole-size: 75%;
+    --c-red: rgb(197, 37, 37);
 }
 
 body {
-  background: #000;
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  font-family: monospace, sans-serif;
+    background: #000;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    font-family: monospace, sans-serif;
 }
 
-header {
-  position: absolute;
-  top: 3px;
-  color: var(--c-red);
-  font-weight: bold;
+header.title {
+    position: absolute;
+    top: 35px;
+    color: var(--c-red);
+    font-weight: bold;
 }
 
-#root{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
+#root {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
 }
 
 .app {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  position: relative;
-  padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    padding: 10px;
+}
+
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 30px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0 20px;
+    background: rgba(255, 255, 255, 0.1);
 }
 
 @media (hover: hover) {
-  .app.running .hole_wrap:hover:before {
-    border-color: var(--c-red);
-  }
+    .app.running .hole_wrap:hover:before {
+        border-color: var(--c-red);
+    }
 
-  .app.running .hole_wrap.active:hover:before {
-    border-color: green;
-  }
+    .app.running .hole_wrap.active:hover:before {
+        border-color: green;
+    }
 }
 
 @media (hover: none) {
-  .app.running .hole-wrap.missed:before {
-    border-color: var(--c-red);
-  }
+    .app.running .hole-wrap.missed:before {
+        border-color: var(--c-red);
+    }
 }
 
 fieldset {
-  border-radius: 10px;
+    border-radius: 10px;
 }
 
 .form-field {
-  margin: 10px 0;
-  display: flex;
-  flex-direction: column;
+    margin: 10px 0;
+    display: flex;
+    flex-direction: column;
 }
-
-
-
-
-

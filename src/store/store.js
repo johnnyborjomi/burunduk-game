@@ -1,6 +1,16 @@
-import { createStore } from "redux";
-import isGameRunReducer  from "./reducers/game-run";
+import { createStore, combineReducers } from 'redux';
+import isGameRun from './reducers/game-run';
+import auth from './reducers/auth';
 
-const store = createStore(isGameRunReducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+const rootReducer = combineReducers({
+    isGameRun,
+    auth,
+});
+
+const store = createStore(
+    rootReducer,
+    window.__REDUX_DEVTOOLS_EXTENSION__ &&
+        window.__REDUX_DEVTOOLS_EXTENSION__(),
+);
 
 export default store;
