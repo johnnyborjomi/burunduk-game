@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import bcrypt from 'bcryptjs';
 import { connect } from 'react-redux';
 import { loginCreator } from '../../store/reducers/auth';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
@@ -16,12 +17,8 @@ const LoginForm = (props) => {
             const authRes = await signInWithEmailAndPassword(
                 auth,
                 email.value,
-                pass.value,
+                bcrypt.hashSync(pass.value, 10),
             );
-            // console.log('login:', authRes);
-            // if (authRes.user) {
-            //     props.dispatch(loginCreator(true));
-            // }
         } catch (err) {
             console.log(err);
             const message = err.code.replace(/auth\/|-/gi, ' ').trim();

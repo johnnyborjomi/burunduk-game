@@ -19,7 +19,7 @@ body {
 
 header.title {
     position: absolute;
-    top: 35px;
+    top: 5px;
     color: var(--c-red);
     font-weight: bold;
 }
@@ -37,19 +37,6 @@ header.title {
     justify-content: center;
     position: relative;
     padding: 10px;
-}
-
-.header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 30px;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    padding: 0 20px;
-    background: rgba(255, 255, 255, 0.1);
 }
 
 @media (hover: hover) {
