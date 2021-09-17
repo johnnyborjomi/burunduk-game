@@ -32,7 +32,6 @@ function App({ isLoggedIn, user, dispatch }) {
             console.log('AUTH STATE CHANGED');
             if (user) {
                 const dbUser = await getDbUser(user.uid);
-                console.log('DB USER::', dbUser);
                 dispatch(addUserCreator(dbUser));
             } else {
                 dispatch(removeUserCreator());

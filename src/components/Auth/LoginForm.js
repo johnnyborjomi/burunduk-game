@@ -9,9 +9,9 @@ const LoginForm = (props) => {
         e.preventDefault();
         setErrorMessage('');
         const { email, pass } = e.target.elements;
-        const user = await signInUser(email.value, pass.value);
-        if (user.error && user.err.code) {
-            const message = user.err.code.replace(/auth\/|-/gi, ' ').trim();
+        const { error } = await signInUser(email.value, pass.value);
+        if (error && error.code) {
+            const message = error.code.replace(/auth\/|-/gi, ' ').trim();
             setErrorMessage(message);
         }
     };

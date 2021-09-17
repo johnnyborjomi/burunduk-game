@@ -3,6 +3,7 @@ import {
     getAuth,
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
+    updateProfile,
 } from 'firebase/auth';
 import { getFirestore, collection, addDoc, getDocs } from 'firebase/firestore';
 
@@ -40,34 +41,36 @@ export async function getDbUser(id) {
     return user;
 }
 
-export async function registerUser(email, pass) {
+export async function registerUser(email, pass, playerName) {
     try {
-        const authRes = await createUserWithEmailAndPassword(auth, email, pass);
-        console.log('login:', authRes, 'auth:', auth.currentUser);
-        const dBuser = await createDbUser(auth.currentUser);
+        await createUserWithEmailAndPassword(auth, email, pass);
+        const dbUser = await createDbUser(auth.currentUser);
+        debugger;
+        if (playerName) {
+            await updateProfile(auth.currentUser, {
+                displayName: playerName,
+            });
+        }
         return {
             currentUser: auth.currentUser,
-            dBuser,
+            dbUser,
+            error: false,
         };
-    } catch (err) {
-        console.log('user/create-fail', err);
-        return { error: true, err };
+    } catch (error) {
+        console.log('user/create-fail', error);
+        return { error, dbUser: null };
     }
 }
 
 export async function signInUser(email, pass) {
     try {
-        const authRes = await signInWithEmailAndPassword(auth, email, pass);
-        // await updateProfile(auth.currentUser, {
-        //     displayName: 'Nikuz',
-        //     points: '9999',
-        // });
+        await signInWithEmailAndPassword(auth, email, pass);
         console.log('user:::::::', auth.currentUser);
-        const user = await getDbUser(auth.currentUser.uid);
-        return user;
-    } catch (err) {
-        console.log('user/sign-fail', err);
-        return { error: true, err };
+        const dbUser = await getDbUser(auth.currentUser.uid);
+        return { currentUser: auth.currentUser, dbUser, error: false };
+    } catch (error) {
+        console.log('user/sign-fail', error);
+        return { error, dbUser: null };
     }
 }
 
