@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { currentUserCreator } from './store/reducers/auth';
+import { addUserCreator, removeUserCreator } from './store/reducers/user';
 import { getAuth, onAuthStateChanged } from '@firebase/auth';
 import { BrowserRouter, Switch, Route, Link, Redirect } from 'react-router-dom';
+import { getDbUser } from './firebase/index';
 import './App.css';
 import Game from './components/Game/Game';
 import Tabs from './components/Tabs/Tabs';
@@ -10,27 +12,35 @@ import LoginForm from './components/Auth/LoginForm';
 import RegForm from './components/Auth/RegisterForm';
 import Header from './components/Header/Header';
 
-const AuthTabs = [
-    {
-        text: 'Login',
-        el: <LoginForm />,
-    },
-    {
-        text: 'Register',
-        el: <RegForm />,
-    },
-];
-
 function App({ isLoggedIn, user, dispatch }) {
     const auth = getAuth();
     const [authPending, setAuthPending] = useState(true);
 
+    const AuthTabs = [
+        {
+            text: 'Login',
+            el: <LoginForm />,
+        },
+        {
+            text: 'Register',
+            el: <RegForm />,
+        },
+    ];
+
     useEffect(() => {
-        onAuthStateChanged(auth, (user) => {
+        async function handleAuth(user) {
             console.log('AUTH STATE CHANGED');
+            if (user) {
+                const dbUser = await getDbUser(user.uid);
+                console.log('DB USER::', dbUser);
+                dispatch(addUserCreator(dbUser));
+            } else {
+                dispatch(removeUserCreator());
+            }
             dispatch(currentUserCreator(user));
             setAuthPending(false);
-        });
+        }
+        onAuthStateChanged(auth, handleAuth);
     }, []);
 
     if (authPending) {

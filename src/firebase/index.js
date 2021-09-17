@@ -28,7 +28,7 @@ async function createDbUser(user) {
     return docRef;
 }
 
-async function getDbUser(id) {
+export async function getDbUser(id) {
     const querySnapshot = await getDocs(collection(db, 'users'));
     console.log('querySnap', querySnapshot);
     const user = querySnapshot.docs
