@@ -1,12 +1,33 @@
 import React, { useState } from 'react';
-import bcrypt from 'bcryptjs';
+import { collection, getDocs, getFirestore } from 'firebase/firestore';
 import { connect } from 'react-redux';
-import { loginCreator } from '../../store/reducers/auth';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import {
+    getAuth,
+    signInWithEmailAndPassword,
+    updateProfile,
+} from 'firebase/auth';
 import './Form.css';
+
+async function getUser(db, id) {
+    try {
+        const querySnapshot = await getDocs(collection(db, 'users'));
+        console.log('querySnap', querySnapshot);
+        const user = querySnapshot.docs
+            .find((doc) => {
+                console.log(doc, id);
+                return doc.data().id === id;
+            })
+            .data();
+        console.log('gotUser::::', user);
+        return user;
+    } catch (e) {
+        console.error('Error getting document: ', e);
+    }
+}
 
 const LoginForm = (props) => {
     const auth = getAuth();
+    const db = getFirestore();
 
     const [errorMessage, setErrorMessage] = useState('');
     const handleLogin = async (e) => {
@@ -17,8 +38,14 @@ const LoginForm = (props) => {
             const authRes = await signInWithEmailAndPassword(
                 auth,
                 email.value,
-                bcrypt.hashSync(pass.value, 10),
+                pass.value,
             );
+            // await updateProfile(auth.currentUser, {
+            //     displayName: 'Nikuz',
+            //     points: '9999',
+            // });
+            console.log('user:::::::', auth.currentUser);
+            getUser(db, auth.currentUser.uid);
         } catch (err) {
             console.log(err);
             const message = err.code.replace(/auth\/|-/gi, ' ').trim();
