@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { currentUserCreator } from './store/reducers/auth';
-import { signOut, getAuth, onAuthStateChanged } from '@firebase/auth';
+import { getAuth, onAuthStateChanged } from '@firebase/auth';
 import { BrowserRouter, Switch, Route, Link, Redirect } from 'react-router-dom';
 import './App.css';
 import Game from './components/Game/Game';
@@ -27,6 +27,7 @@ function App({ isLoggedIn, user, dispatch }) {
 
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
+            console.log('AUTH STATE CHANGED');
             dispatch(currentUserCreator(user));
             setAuthPending(false);
         });

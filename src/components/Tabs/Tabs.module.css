@@ -1,6 +1,5 @@
 .tabs_links {
     display: flex;
-
 }
 
 .tabs_link {
@@ -8,7 +7,9 @@
     padding: 5px;
     border: 1px solid white;
     border-radius: 4px;
-    transition: all .2s;
+    transition: all 0.2s;
+    flex-grow: 1;
+    text-align: center;
 }
 
 .tabs_link_active {

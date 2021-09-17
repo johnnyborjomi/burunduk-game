@@ -18,7 +18,7 @@ const fireBaseApp = initializeApp({
 const auth = getAuth();
 const db = getFirestore();
 
-async function createDbUser(db, user) {
+async function createDbUser(user) {
     console.log('DB user create::::::::::', user.uid, user.email);
     const docRef = await addDoc(collection(db, 'users'), {
         id: user.uid,
@@ -28,7 +28,7 @@ async function createDbUser(db, user) {
     return docRef;
 }
 
-async function getDbUser(db, id) {
+async function getDbUser(id) {
     const querySnapshot = await getDocs(collection(db, 'users'));
     console.log('querySnap', querySnapshot);
     const user = querySnapshot.docs
@@ -40,11 +40,11 @@ async function getDbUser(db, id) {
     return user;
 }
 
-export async function createUser(email, pass) {
+export async function registerUser(email, pass) {
     try {
         const authRes = await createUserWithEmailAndPassword(auth, email, pass);
         console.log('login:', authRes, 'auth:', auth.currentUser);
-        const dBuser = await createDbUser(db, auth.currentUser);
+        const dBuser = await createDbUser(auth.currentUser);
         return {
             currentUser: auth.currentUser,
             dBuser,
@@ -63,11 +63,11 @@ export async function signInUser(email, pass) {
         //     points: '9999',
         // });
         console.log('user:::::::', auth.currentUser);
-        const user = await getDbUser(db, auth.currentUser.uid);
+        const user = await getDbUser(auth.currentUser.uid);
         return user;
     } catch (err) {
-        console.log(err);
-        return err;
+        console.log('user/sign-fail', err);
+        return { error: true, err };
     }
 }
 
