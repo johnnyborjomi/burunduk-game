@@ -1,12 +1,4 @@
-const IS_LOGGED = 'IS_LOGGED';
 const CURRENT_USER = 'CURRENT_USER';
-
-export const loginCreator = (isLogged) => {
-    return {
-        type: IS_LOGGED,
-        isLogged,
-    };
-};
 
 export const currentUserCreator = (user) => {
     return {
@@ -22,8 +14,6 @@ const defaultState = {
 
 const authReducer = (state = defaultState, action) => {
     switch (action.type) {
-        case IS_LOGGED:
-            return { ...state, isLogged: action.isLogged };
         case CURRENT_USER:
             if (action.user)
                 return { ...state, currentUser: action.user, isLogged: true };

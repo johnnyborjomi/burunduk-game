@@ -1,44 +1,16 @@
 import React, { useState } from 'react';
-import bcrypt from 'bcryptjs';
 import { connect } from 'react-redux';
-import { loginCreator } from '../../store/reducers/auth';
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
-import { getFirestore, collection, addDoc } from 'firebase/firestore';
-
-async function createUser(db, user) {
-    console.log('user::::::::::', user.uid, user.email);
-    try {
-        const docRef = await addDoc(collection(db, 'users'), {
-            id: user.uid,
-            email: user.email,
-        });
-        console.log('Document written with ID: ', docRef.id);
-    } catch (e) {
-        console.error('Error adding document: ', e);
-    }
-}
+import { createUser } from '../../firebase';
 
 const RegForm = (props) => {
-    const auth = getAuth();
-    const db = getFirestore();
-    console.log('db::::', db);
-
     const [errorMessage, setErrorMessage] = useState('');
     const handleRegister = async (e) => {
         e.preventDefault();
         setErrorMessage('');
         const { email, pass } = e.target.elements;
-        try {
-            const authRes = await createUserWithEmailAndPassword(
-                auth,
-                email.value,
-                pass.value,
-            );
-            console.log('login:', authRes, 'auth:', auth.currentUser);
-            createUser(db, auth.currentUser);
-        } catch (err) {
-            console.log(err);
-            const message = err.code.replace(/auth\/|-/gi, ' ').trim();
+        const user = await createUser(email.value, pass.value);
+        if (user.error && user.error.code) {
+            const message = user.error.code.replace(/auth\/|-/gi, ' ').trim();
             setErrorMessage(message);
         }
     };

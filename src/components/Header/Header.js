@@ -1,6 +1,6 @@
 import { signOut, getAuth } from '@firebase/auth';
 import stl from './Header.module.css';
-
+//todo: stop game on signOut
 const Header = ({ user }) => {
     const auth = getAuth();
     return (
