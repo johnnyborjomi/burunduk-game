@@ -1,5 +1,13 @@
 import levels from '../levels.config';
 import { v4 as uuid } from 'uuid';
+import store from '../store/store';
+import {
+    levelCreator,
+    missesCreator,
+    scoreCreator,
+} from '../store/reducers/game';
+
+const dispatch = store.dispatch;
 
 export default class Game {
     isEventsRunning = false;
@@ -13,42 +21,39 @@ export default class Game {
     setLevel = null;
     setMtxCallback = null;
 
-    constructor () {
+    constructor() {
         this.holesCount = levels[this.currentLevel].holesCount;
-        console.log('game::::::', this)
+        console.log('game::::::', this);
     }
 
-    getHolesCount () {
+    getHolesCount() {
         return this.holesCount;
     }
 
-    getLevel () {
+    getLevel() {
         return this.currentLevel;
     }
 
-    bindHooks ({setLevel, setMtx, setMessage}) {
-        this.setLevel = setLevel;
+    bindHooks({ setMtx, setMessage }) {
         this.setMtxCallback = setMtx;
         this.setMessage = setMessage;
     }
 
-    generateMtx (count) {
-        return new Array(count)
-            .fill('')
-            .map((item, i) => ({ 
-                active: false, 
-                num: i,
-                id: uuid(),
-                isKilled: false,
-                isMissed: false
-            }));
+    generateMtx(count) {
+        return new Array(count).fill('').map((item, i) => ({
+            active: false,
+            num: i,
+            id: uuid(),
+            isKilled: false,
+            isMissed: false,
+        }));
     }
 
-    getTimeRange (min, max) {
+    getTimeRange(min, max) {
         return Math.floor(min + Math.random() * (max + 1 - min));
     }
 
-    generateEvent () {
+    generateEvent() {
         const showTime = this.getTimeRange(200, 3000);
         const stayTime = this.getTimeRange(500, 4000);
         const hideTime = showTime + stayTime;
@@ -56,42 +61,43 @@ export default class Game {
         return {
             showTime,
             stayTime,
-            hideTime, 
-            activeHole
-        } 
+            hideTime,
+            activeHole,
+        };
     }
 
-    nextLevel () {
+    nextLevel() {
         this.currentLevel++;
-        this.setLevel(this.currentLevel);
+        dispatch(levelCreator(this.currentLevel));
         this.holesCount = levels[this.currentLevel].holesCount;
-        
         this.showMessage({
-            text: `Level ${this.currentLevel}!!!`, 
-            status: 'success'
+            text: `Level ${this.currentLevel}!!!`,
+            status: 'success',
         });
         setTimeout(() => {
             this.hideMessage();
             this.setMtxCallback(this.generateMtx(this.holesCount));
             this.runEvents();
-        }, 1500)
+        }, 1500);
     }
 
-    sucessState (score, item) {
+    sucessState(item, score) {
         this.kill(item.num);
+        // this.dispatchEvent('Game:score', score);
+        dispatch(scoreCreator(score));
 
         if (score >= levels[this.currentLevel].scoreToNext) {
             setTimeout(() => {
                 this.nextLevel();
                 this.clearEvents();
             }, this.unkillAnimationDelay);
-            
-            return
+
+            return;
         }
 
         this.clearEvents();
         setTimeout(() => {
-            this.hide(item.num)
+            this.hide(item.num);
             this.runEvents();
             setTimeout(() => this.unkill(item.num), this.unkillAnimationDelay);
         }, this.killAnimationDuration);
@@ -105,40 +111,59 @@ export default class Game {
     hideMessage() {
         this.setMessage({
             message: '',
-            status: ''
+            status: '',
         });
     }
 
-    missState (item) {
+    dispatchEvent(eventName, value) {
+        const ev = new CustomEvent(eventName, {
+            detail: {
+                value,
+            },
+        });
+        document.dispatchEvent(ev);
+    }
+
+    missState(item, misses) {
         this.miss(item.num);
+        // this.dispatchEvent('Game:misses', misses);
+        dispatch(missesCreator(misses));
         setTimeout(() => this.unMiss(item.num), this.unkillAnimationDelay);
     }
 
-    kill (num) {
-        this.setMtxCallback(mtx => this.mtxSetter(mtx, num, 'isKilled', true));
+    kill(num) {
+        this.setMtxCallback((mtx) =>
+            this.mtxSetter(mtx, num, 'isKilled', true),
+        );
     }
 
-    unkill (num) {
-        this.setMtxCallback(mtx => this.mtxSetter(mtx, num, 'isKilled', false));
+    unkill(num) {
+        this.setMtxCallback((mtx) =>
+            this.mtxSetter(mtx, num, 'isKilled', false),
+        );
     }
 
-    hide (num) {
-        this.setMtxCallback(mtx => this.mtxSetter(mtx, num, 'active', false));
+    hide(num) {
+        this.setMtxCallback((mtx) => this.mtxSetter(mtx, num, 'active', false));
     }
 
-    show (num) {
-        this.setMtxCallback(mtx => this.mtxSetter(mtx, num, 'active', true));
+    show(num) {
+        this.setMtxCallback((mtx) => this.mtxSetter(mtx, num, 'active', true));
     }
 
-    miss (num) {
-        this.setMtxCallback(mtx => this.mtxSetter(mtx, num, 'isMissed', true));
+    miss(num) {
+        this.setMtxCallback((mtx) =>
+            this.mtxSetter(mtx, num, 'isMissed', true),
+        );
     }
 
-    unMiss (num) {
-        this.setMtxCallback(mtx => this.mtxSetter(mtx, num, 'isMissed', false));
+    unMiss(num) {
+        this.setMtxCallback((mtx) =>
+            this.mtxSetter(mtx, num, 'isMissed', false),
+        );
     }
 
-    mtxSetter (mtx, num, prop, val) {
+    mtxSetter(mtx, num, prop, val) {
         mtx[num][prop] = val;
         return [...mtx];
     }
@@ -148,8 +173,11 @@ export default class Game {
         clearTimeout(this.hideTimeoutId);
     }
 
-    renderEvent (event, isRender) {
-        console.log(`${isRender ? 'show' : 'hide'}::::::`, JSON.stringify(event, null, 2));
+    renderEvent(event, isRender) {
+        console.log(
+            `${isRender ? 'show' : 'hide'}::::::`,
+            JSON.stringify(event, null, 2),
+        );
 
         //disable render when game is stopped
         if (isRender && !this.isEventsRunning) {
@@ -159,13 +187,13 @@ export default class Game {
 
         //render event
         if (isRender) {
-            this.unkill(event.activeHole)
+            this.unkill(event.activeHole);
             this.show(event.activeHole);
             return;
-        } 
+        }
 
         //unrender event and call new event if not stopped
-        this.setMtxCallback(mtx => {
+        this.setMtxCallback((mtx) => {
             mtx[event.activeHole].active = false;
             return [...mtx];
         });
@@ -177,14 +205,20 @@ export default class Game {
         this.runEvents();
     }
 
-    runEvents () {
+    runEvents() {
         this.isEventsRunning = true;
         const event = this.generateEvent();
-        this.showTimeoutId = setTimeout(() => this.renderEvent(event, true), event.showTime);
-        this.hideTimeoutId = setTimeout(() => this.renderEvent(event, false), event.hideTime)
+        this.showTimeoutId = setTimeout(
+            () => this.renderEvent(event, true),
+            event.showTime,
+        );
+        this.hideTimeoutId = setTimeout(
+            () => this.renderEvent(event, false),
+            event.hideTime,
+        );
     }
 
-    stopEvents () {
+    stopEvents() {
         this.isEventsRunning = false;
     }
 }

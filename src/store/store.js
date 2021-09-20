@@ -1,10 +1,10 @@
 import { createStore, combineReducers } from 'redux';
-import isGameRun from './reducers/game-run';
+import game from './reducers/game';
 import auth from './reducers/auth';
 import user from './reducers/user';
 
 const rootReducer = combineReducers({
-    isGameRun,
+    game,
     auth,
     user,
 });

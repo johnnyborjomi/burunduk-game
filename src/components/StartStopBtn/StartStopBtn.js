@@ -1,7 +1,7 @@
 import React from 'react';
 import stl from './Btn.module.css';
 import { connect } from 'react-redux';
-import { isGameRunCreator } from '../../store/reducers/game-run';
+import { startGameCreator, stopGameCreator } from '../../store/reducers/game';
 
 const BtnComponent = ({ isRun, startStopHandler }) => {
     return (
@@ -14,9 +14,13 @@ const BtnComponent = ({ isRun, startStopHandler }) => {
     );
 };
 
-const mapSttPrps = (state) => ({ isRun: state.isGameRun });
+const mapSttPrps = (state) => ({ isRun: state.game.isGameRun });
 const mapDsptPrps = (dispatch) => {
-    return { startStopHandler: (isRun) => dispatch(isGameRunCreator(!isRun)) };
+    return {
+        startStopHandler: (isRun) => {
+            isRun ? dispatch(stopGameCreator()) : dispatch(startGameCreator());
+        },
+    };
 };
 
 export const StartStopBtn = connect(mapSttPrps, mapDsptPrps)(BtnComponent);

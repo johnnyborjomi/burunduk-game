@@ -2,14 +2,14 @@ import { connect } from 'react-redux';
 import { signOut, getAuth } from '@firebase/auth';
 import stl from './Header.module.css';
 import Btn from '../../components/UI/Btn/Btn';
-import { isGameRunCreator } from '../../store/reducers/game-run';
-//todo: stop game on signOut
+import { stopGameCreator } from '../../store/reducers/game';
+
 const Header = ({ authUser, dispatch }) => {
     const auth = getAuth();
     const name = authUser.displayName || authUser.email;
 
     function signOutHandler() {
-        dispatch(isGameRunCreator(false));
+        dispatch(stopGameCreator());
         signOut(auth);
     }
     return (

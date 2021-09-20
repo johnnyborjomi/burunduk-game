@@ -1,22 +1,19 @@
 import { connect } from 'react-redux';
 import { useState, useEffect } from 'react';
 import GameService from '../../service/game.service';
-import { Display } from '../../components/Display/Display';
+import Display from '../../components/Display/Display';
 import { StartStopBtn } from '../StartStopBtn/StartStopBtn';
 import { Holes } from '../../components/Holes/Holes';
 import { Message } from '../../components/Messages/Message';
 
 const game = new GameService();
 
-function Game({ isRun, user }) {
+function Game({ isRun, score, misses }) {
     const [mtx, setMtx] = useState(game.generateMtx(game.getHolesCount()));
-    const [score, setScore] = useState(0);
-    const [misses, setMisses] = useState(0);
-    const [level, setLevel] = useState(game.getLevel());
     const [message, setMessage] = useState({ text: '', status: '' });
 
     useEffect(() => {
-        game.bindHooks({ setLevel, setMtx, setMessage });
+        game.bindHooks({ setMtx, setMessage });
         return game.stopEvents.bind(game);
     }, []);
 
@@ -31,22 +28,15 @@ function Game({ isRun, user }) {
 
     const holeClickHandler = (item) => {
         if (item.active) {
-            setScore((score) => score + 1);
-            game.sucessState(score, item);
+            game.sucessState(item, score + 1);
         } else if (!item.active && isRun) {
-            setMisses((miss) => miss + 1);
-            game.missState(item);
+            game.missState(item, misses + 1);
         }
     };
 
     return (
         <div className={`app ${isRun ? 'running' : ''} `}>
-            <Display
-                score={score}
-                isRun={isRun}
-                misses={misses}
-                level={level}
-            />
+            <Display />
             <Holes
                 holesCount={game.getHolesCount()}
                 mtx={mtx}
@@ -59,7 +49,9 @@ function Game({ isRun, user }) {
 }
 
 const mapStateToProps = (state) => ({
-    isRun: state.isGameRun,
+    isRun: state.game.isGameRun,
+    score: state.game.score,
+    misses: state.game.misses,
     user: state.auth.currentUser,
 });
 
