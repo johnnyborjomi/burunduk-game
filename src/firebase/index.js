@@ -24,6 +24,7 @@ async function createDbUser(user) {
     const docRef = await addDoc(collection(db, 'users'), {
         id: user.uid,
         email: user.email,
+        name: user.displayName,
     });
     console.log('Document written with ID: ', docRef.id);
     return docRef;
@@ -44,13 +45,12 @@ export async function getDbUser(id) {
 export async function registerUser(email, pass, playerName) {
     try {
         await createUserWithEmailAndPassword(auth, email, pass);
-        const dbUser = await createDbUser(auth.currentUser);
-        debugger;
         if (playerName) {
             await updateProfile(auth.currentUser, {
                 displayName: playerName,
             });
         }
+        const dbUser = await createDbUser(auth.currentUser);
         return {
             currentUser: auth.currentUser,
             dbUser,
