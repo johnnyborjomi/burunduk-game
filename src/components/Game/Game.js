@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { useState, useEffect } from 'react';
 import GameService from '../../service/game.service';
 import { Display } from '../../components/Display/Display';
-import { Btn } from '../StartStopBtn/StartStopBtn';
+import { StartStopBtn } from '../StartStopBtn/StartStopBtn';
 import { Holes } from '../../components/Holes/Holes';
 import { Message } from '../../components/Messages/Message';
 
@@ -17,6 +17,7 @@ function Game({ isRun, user }) {
 
     useEffect(() => {
         game.bindHooks({ setLevel, setMtx, setMessage });
+        return game.stopEvents.bind(game);
     }, []);
 
     useEffect(() => {
@@ -52,7 +53,7 @@ function Game({ isRun, user }) {
                 holeClickHandler={holeClickHandler}
             />
             <Message message={message} />
-            <Btn />
+            <StartStopBtn />
         </div>
     );
 }

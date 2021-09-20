@@ -5,6 +5,10 @@
     --c-red: rgb(197, 37, 37);
 }
 
+* {
+    font-family: monospace, sans-serif;
+}
+
 body {
     background: #000;
     margin: 0;
@@ -14,7 +18,6 @@ body {
     align-items: center;
     justify-content: center;
     min-height: 100vh;
-    font-family: monospace, sans-serif;
 }
 
 header.title {

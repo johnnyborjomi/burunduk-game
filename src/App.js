@@ -11,6 +11,7 @@ import Tabs from './components/Tabs/Tabs';
 import LoginForm from './components/Auth/LoginForm';
 import RegForm from './components/Auth/RegisterForm';
 import Header from './components/Header/Header';
+import Btn from './components/UI/Btn/Btn';
 
 function App({ isLoggedIn, user, dispatch }) {
     const auth = getAuth();
@@ -54,7 +55,9 @@ function App({ isLoggedIn, user, dispatch }) {
                     <Switch>
                         <Route path="/" exact>
                             <Link to="/game" style={{ color: 'white' }}>
-                                play
+                                <Btn size={'lg'} bg={'green'} color={'white'}>
+                                    play
+                                </Btn>
                             </Link>
                         </Route>
                         <Route path="/game">

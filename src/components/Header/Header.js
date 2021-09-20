@@ -1,14 +1,21 @@
 import { connect } from 'react-redux';
 import { signOut, getAuth } from '@firebase/auth';
 import stl from './Header.module.css';
+import Btn from '../../components/UI/Btn/Btn';
+import { isGameRunCreator } from '../../store/reducers/game-run';
 //todo: stop game on signOut
-const Header = ({ authUser }) => {
+const Header = ({ authUser, dispatch }) => {
     const auth = getAuth();
     const name = authUser.displayName || authUser.email;
+
+    function signOutHandler() {
+        dispatch(isGameRunCreator(false));
+        signOut(auth);
+    }
     return (
         <header className={stl.header}>
             <span className={stl.user_name}>{name}</span>
-            <button onClick={() => signOut(auth)}>Sign Out</button>
+            <Btn onClick={signOutHandler}>Sign Out</Btn>
         </header>
     );
 };
