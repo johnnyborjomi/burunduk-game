@@ -6,6 +6,7 @@ import {
     missesCreator,
     scoreCreator,
 } from '../store/reducers/game';
+import { updateScore } from '../firebase';
 
 const dispatch = store.dispatch;
 
@@ -69,6 +70,12 @@ export default class Game {
     nextLevel() {
         this.currentLevel++;
         dispatch(levelCreator(this.currentLevel));
+        const state = store.getState();
+        updateScore({
+            level: state.game.level,
+            score: state.game.score,
+            misses: state.game.misses,
+        });
         this.holesCount = levels[this.currentLevel].holesCount;
         this.showMessage({
             text: `Level ${this.currentLevel}!!!`,

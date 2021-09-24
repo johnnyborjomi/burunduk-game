@@ -5,7 +5,16 @@ import {
     signInWithEmailAndPassword,
     updateProfile,
 } from 'firebase/auth';
-import { getFirestore, collection, addDoc, getDocs } from 'firebase/firestore';
+import {
+    getFirestore,
+    collection,
+    addDoc,
+    getDoc,
+    getDocs,
+    setDoc,
+    doc,
+    updateDoc,
+} from 'firebase/firestore';
 
 const fireBaseApp = initializeApp({
     apiKey: 'AIzaSyBiY9tiljK0qg73xYodJFJclRE9uW_aWLc',
@@ -21,24 +30,31 @@ const db = getFirestore();
 
 async function createDbUser(user) {
     console.log('DB user create::::::::::', user.uid, user.email);
-    const docRef = await addDoc(collection(db, 'users'), {
+    const docRef = doc(db, 'users', user.uid);
+    await setDoc(docRef, {
         id: user.uid,
         email: user.email,
         name: user.displayName,
+        game: {
+            highScore: {
+                score: 0,
+                level: 1,
+                misses: 0,
+            },
+        },
     });
     console.log('Document written with ID: ', docRef.id);
     return docRef;
 }
 
 export async function getDbUser(id) {
-    const querySnapshot = await getDocs(collection(db, 'users'));
-    console.log('querySnap', querySnapshot);
-    const user = querySnapshot.docs
-        .find((doc) => {
-            return doc.data().id === id;
-        })
-        .data();
-    console.log('gotUser::::', user);
+    const docSnap = await getDoc(doc(db, 'users', id));
+    let user;
+    if (docSnap.exists()) {
+        user = docSnap.data();
+    } else {
+        throw new Error("firebase/doc-doesn't-exist");
+    }
     return user;
 }
 
@@ -71,6 +87,24 @@ export async function signInUser(email, pass) {
     } catch (error) {
         console.log('user/sign-fail', error);
         return { error, dbUser: null };
+    }
+}
+
+export async function updateScore(results) {
+    try {
+        const userRef = doc(db, 'users', auth.currentUser.uid);
+        await updateDoc(userRef, {
+            game: {
+                highScore: {
+                    score: results.score,
+                    level: results.level,
+                    misses: results.misses,
+                },
+            },
+        });
+    } catch (error) {
+        console.log('game/update-failed', error);
+        return { error };
     }
 }
 

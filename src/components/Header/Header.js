@@ -3,7 +3,7 @@ import { signOut, getAuth } from '@firebase/auth';
 import stl from './Header.module.css';
 import Btn from '../../components/UI/Btn/Btn';
 import { stopGameCreator } from '../../store/reducers/game';
-
+//TODO: clear game store on sign out
 const Header = ({ authUser, dispatch }) => {
     const auth = getAuth();
     const name = authUser.displayName || authUser.email;
