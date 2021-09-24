@@ -25,7 +25,7 @@
     transform: translateX(-50%);
     width: 25%;
     height: 25%;
-    z-index: 10;
+    z-index: 15;
 }
 
 .hole_wrap:before {
