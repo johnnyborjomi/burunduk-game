@@ -1,7 +1,11 @@
 import React from 'react';
 import stl from './Btn.module.css';
 import { connect } from 'react-redux';
-import { startGameCreator, stopGameCreator } from '../../store/reducers/game';
+import {
+    startGameCreator,
+    stopGameCreator,
+} from '../../../store/reducers/game';
+import Game from '../../../service/game.service';
 
 const BtnComponent = ({ isRun, startStopHandler }) => {
     return (
@@ -18,7 +22,12 @@ const mapSttPrps = (state) => ({ isRun: state.game.isGameRun });
 const mapDsptPrps = (dispatch) => {
     return {
         startStopHandler: (isRun) => {
-            isRun ? dispatch(stopGameCreator()) : dispatch(startGameCreator());
+            if (isRun) {
+                Game.checkAndUpdateHighScores();
+                dispatch(stopGameCreator());
+            } else {
+                dispatch(startGameCreator());
+            }
         },
     };
 };

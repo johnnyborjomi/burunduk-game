@@ -6,7 +6,7 @@ import {
     missesCreator,
     scoreCreator,
 } from '../store/reducers/game';
-import { updateScore } from '../firebase';
+import { updateHighScoresThunk } from '../store/thunk';
 
 const dispatch = store.dispatch;
 
@@ -70,12 +70,7 @@ export default class Game {
     nextLevel() {
         this.currentLevel++;
         dispatch(levelCreator(this.currentLevel));
-        const state = store.getState();
-        updateScore({
-            level: state.game.level,
-            score: state.game.score,
-            misses: state.game.misses,
-        });
+        Game.checkAndUpdateHighScores();
         this.holesCount = levels[this.currentLevel].holesCount;
         this.showMessage({
             text: `Level ${this.currentLevel}!!!`,
@@ -227,5 +222,19 @@ export default class Game {
 
     stopEvents() {
         this.isEventsRunning = false;
+        // this.checkAndUpdateHighScores();
+    }
+
+    static checkAndUpdateHighScores() {
+        const state = store.getState();
+        if (!state.game || !state.user) return;
+        if (state.game.score > state.user.game.highScore.score) {
+            const newhighScore = {
+                level: state.game.level,
+                score: state.game.score,
+                misses: state.game.misses,
+            };
+            dispatch(updateHighScoresThunk(newhighScore));
+        }
     }
 }

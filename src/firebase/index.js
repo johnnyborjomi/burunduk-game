@@ -90,9 +90,10 @@ export async function signInUser(email, pass) {
     }
 }
 
-export async function updateScore(results) {
+export async function updateHighScores(results) {
     try {
         const userRef = doc(db, 'users', auth.currentUser.uid);
+        debugger;
         await updateDoc(userRef, {
             game: {
                 highScore: {
@@ -102,6 +103,7 @@ export async function updateScore(results) {
                 },
             },
         });
+        return true;
     } catch (error) {
         console.log('game/update-failed', error);
         return { error };

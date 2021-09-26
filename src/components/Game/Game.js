@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { useState, useEffect } from 'react';
 import GameService from '../../service/game.service';
 import Display from './Display/Display';
-import { StartStopBtn } from '../StartStopBtn/StartStopBtn';
+import { StartStopBtn } from './StartStopBtn/StartStopBtn';
 import { Holes } from './Holes/Holes';
 import { Message } from './Messages/Message';
 
