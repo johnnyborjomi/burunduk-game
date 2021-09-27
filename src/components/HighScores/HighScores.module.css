@@ -1,0 +1,11 @@
+.high_score ul {
+    border: 1px solid white;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.high_score ul li {
+    text-align: center;
+    text-transform: capitalize;
+    margin: 10px 0;
+}
