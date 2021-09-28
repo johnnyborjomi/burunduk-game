@@ -29,7 +29,7 @@ export const highScoresCreator = (highScore) => {
 const userReducer = (state = defaultState, action) => {
     switch (action.type) {
         case ADD_USER:
-            return action.user;
+            return action.user ? action.user : null;
         case REMOVE_USER:
             return null;
         case HIGH_SCORES:
