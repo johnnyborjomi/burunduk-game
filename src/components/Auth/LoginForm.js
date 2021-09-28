@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
+import Btn from '../UI/Btn/Btn';
 import { signInUser } from '../../firebase';
 import './Form.css';
 
@@ -30,7 +30,9 @@ const LoginForm = (props) => {
                     <input type="password" name="pass" placeholder="Password" />
                 </div>
                 <div className="form-field">
-                    <input type="submit" value="Login" />
+                    <Btn color="white" bg="green">
+                        Login
+                    </Btn>
                 </div>
             </fieldset>
         </form>

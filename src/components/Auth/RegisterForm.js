@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { registerUser } from '../../firebase';
+import Btn from '../UI/Btn/Btn';
 
 const RegForm = (props) => {
     const [errorMessage, setErrorMessage] = useState('');
@@ -40,7 +41,9 @@ const RegForm = (props) => {
                     <input type="password" name="pass" placeholder="Password" />
                 </div>
                 <div className="form-field">
-                    <input type="submit" value="Register" />
+                    <Btn color="white" bg="green">
+                        Login
+                    </Btn>
                 </div>
             </fieldset>
         </form>

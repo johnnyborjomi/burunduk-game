@@ -2,18 +2,21 @@ import React from 'react';
 import styled from 'styled-components';
 
 const StyledBtn = styled.button`
-    padding: ${(props) => {
+    border: none;
+    ${(props) => {
         switch (props.size) {
             case 'sm':
-                return '3px 10px;';
+                return `border-radius: 5px;
+                        padding: 3px 10px;
+                `;
             case 'lg':
-                return '20px 40px;';
+                return `border-radius: 10px;
+                        padding: 15px 30px;`;
             default:
-                return '0px 0px;';
+                return `border-radius: 0px;
+                        padding: 0px 0px;`;
         }
     }}
-    border: none;
-    border-radius: 10px;
     font-weight: bold;
     background: ${(props) => props.bg || 'white'};
     color: ${(props) => props.color || 'black'};
