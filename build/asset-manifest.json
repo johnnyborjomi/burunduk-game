@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/burunduk-game/build/static/css/main.0652f906.chunk.css",
+    "main.js": "/burunduk-game/build/static/js/main.2c199dc1.chunk.js",
+    "main.js.map": "/burunduk-game/build/static/js/main.2c199dc1.chunk.js.map",
+    "runtime-main.js": "/burunduk-game/build/static/js/runtime-main.196aa041.js",
+    "runtime-main.js.map": "/burunduk-game/build/static/js/runtime-main.196aa041.js.map",
+    "static/js/2.a52bede8.chunk.js": "/burunduk-game/build/static/js/2.a52bede8.chunk.js",
+    "static/js/2.a52bede8.chunk.js.map": "/burunduk-game/build/static/js/2.a52bede8.chunk.js.map",
+    "index.html": "/burunduk-game/build/index.html",
+    "static/css/main.0652f906.chunk.css.map": "/burunduk-game/build/static/css/main.0652f906.chunk.css.map",
+    "static/js/2.a52bede8.chunk.js.LICENSE.txt": "/burunduk-game/build/static/js/2.a52bede8.chunk.js.LICENSE.txt",
+    "static/media/badger.8b40f1d1.svg": "/burunduk-game/build/static/media/badger.8b40f1d1.svg",
+    "static/media/cancel.9895197a.svg": "/burunduk-game/build/static/media/cancel.9895197a.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.196aa041.js",
+    "static/js/2.a52bede8.chunk.js",
+    "static/css/main.0652f906.chunk.css",
+    "static/js/main.2c199dc1.chunk.js"
+  ]
+}
