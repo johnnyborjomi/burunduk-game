@@ -11,6 +11,8 @@ import {
     addDoc,
     getDoc,
     getDocs,
+    query,
+    where,
     setDoc,
     doc,
     updateDoc,
@@ -48,14 +50,14 @@ async function createDbUser(user) {
 }
 
 export async function getDbUser(id) {
-    const docSnap = await getDoc(doc(db, 'users', id));
-    let user;
-    if (docSnap.exists()) {
-        user = docSnap.data();
-    } else {
-        throw new Error("firebase/doc-doesn't-exist");
+    try {
+        const docSnap = await getDoc(doc(db, 'users', id));
+        const user = docSnap.data();
+        return user;
+    } catch (error) {
+        console.log('user/get-user-fail', error);
+        return { error, dbUser: null };
     }
-    return user;
 }
 
 export async function registerUser(email, pass, playerName) {
@@ -93,7 +95,6 @@ export async function signInUser(email, pass) {
 export async function updateHighScores(results) {
     try {
         const userRef = doc(db, 'users', auth.currentUser.uid);
-        debugger;
         await updateDoc(userRef, {
             game: {
                 highScore: {
@@ -106,6 +107,20 @@ export async function updateHighScores(results) {
         return true;
     } catch (error) {
         console.log('game/update-failed', error);
+        return { error };
+    }
+}
+
+export async function getUsers() {
+    try {
+        const querySnapshot = await getDocs(collection(db, 'users'));
+        let data = [];
+        querySnapshot.forEach((doc) => {
+            data.push(doc.data());
+        });
+        return data;
+    } catch (error) {
+        console.log('game/failed-to-get-users', error);
         return { error };
     }
 }

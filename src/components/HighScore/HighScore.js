@@ -1,4 +1,4 @@
-import cls from './HighScores.module.css';
+import cls from './HighScore.module.css';
 const HighScores = ({ results }) => {
     if (!results || results.score <= 1) return null;
 
