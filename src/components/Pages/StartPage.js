@@ -3,8 +3,7 @@ import { Link } from 'react-router-dom';
 import Btn from '../UI/Btn/Btn';
 import { useContext, useEffect } from 'react';
 import { AuthContext } from '../../context';
-import { useDispatch } from 'react-redux';
-import HighScoresTable from '../HighScoresTables/HighScoresTable';
+import HighScoresTable from '../HighScoresTable/HighScoresTable';
 
 const StartPage = () => {
     const ctx = useContext(AuthContext);

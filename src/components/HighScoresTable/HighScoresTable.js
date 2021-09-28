@@ -7,7 +7,9 @@ import cls from './HighScoresTable.module.css';
 let prevUserScore = { score: 0 };
 
 function useShouldFetchUsers() {
-    const userHighScore = useSelector((state) => state.user.game.highScore);
+    const user = useSelector((state) => state.user);
+    if (!user) return false;
+    const userHighScore = user.game.highScore;
     if (userHighScore.score !== prevUserScore.score) {
         prevUserScore = userHighScore;
         return true;
