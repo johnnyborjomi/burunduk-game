@@ -1,8 +1,15 @@
 :root {
-    --w-width: 80vw;
-    --w-height: 80vh;
+    --w-width: 95vw;
+    --w-height: 95vh;
     --hole-size: 75%;
     --c-red: rgb(197, 37, 37);
+}
+
+@media (min-width: 640px) {
+    :root {
+        --w-width: 80vw;
+        --w-height: 80vh;
+    }
 }
 
 * {
@@ -69,7 +76,8 @@ fieldset {
 }
 
 .form-field {
-    margin: 10px 0;
+    position: relative;
+    padding: 15px 0;
     display: flex;
     flex-direction: column;
 }

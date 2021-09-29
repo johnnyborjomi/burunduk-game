@@ -1,0 +1,35 @@
+.input {
+    padding: 10px;
+    font-size: 20px;
+    border-radius: 10px;
+    background-color: transparent;
+    color: white;
+    border: 1px solid white;
+    outline: none;
+}
+
+.input.invalid {
+    border-color: red;
+}
+
+.input.valid {
+    border-color: green;
+}
+
+.label {
+    margin-bottom: 5px;
+}
+
+.label.invalid {
+    color: red;
+}
+
+.label.valid {
+    color: green;
+}
+
+.errMessage {
+    color: red;
+    position: absolute;
+    bottom: -4px;
+}

@@ -2,35 +2,80 @@ import React, { useState } from 'react';
 import Btn from '../UI/Btn/Btn';
 import { signInUser } from '../../firebase';
 import './Form.css';
+import Input from '../UI/Input/Input';
+import { validators } from '../../helpers/validation';
 
-const LoginForm = (props) => {
+const LoginForm = () => {
     const [errorMessage, setErrorMessage] = useState('');
     const handleLogin = async (e) => {
         e.preventDefault();
         setErrorMessage('');
-        const { email, pass } = e.target.elements;
-        const { error } = await signInUser(email.value, pass.value);
+        const { email, password } = e.target.elements;
+        const { error } = await signInUser(email.value, password.value);
         if (error && error.code) {
             const message = error.code.replace(/auth\/|-/gi, ' ').trim();
             setErrorMessage(message);
         }
     };
 
+    const [fields, setFields] = useState({
+        email: {
+            value: '',
+            isTouched: false,
+            isValid: false,
+            errMessage: null,
+        },
+        password: {
+            value: '',
+            isTouched: false,
+            isValid: false,
+            errMessage: null,
+            noValidate: true,
+        },
+    });
+
+    function onInputChange(val, type) {
+        const [isValid, errMessage] = validators[type](val);
+        setFields((prev) => ({
+            ...prev,
+            [type]: {
+                value: val,
+                isTouched: val.length,
+                isValid: isValid,
+                errMessage: errMessage,
+                noValidate: prev[type].noValidate,
+            },
+        }));
+    }
+
     return (
         <form onSubmit={handleLogin}>
             <div className="error-message">{errorMessage}</div>
             <fieldset>
                 <legend>Login</legend>
+                <Input
+                    type="email"
+                    name="email"
+                    label="Email"
+                    value={fields.email.value}
+                    isTouched={fields.email.isTouched}
+                    isValid={fields.email.isValid}
+                    errMessage={fields.email.errMessage}
+                    onChange={(val) => onInputChange(val, 'email')}
+                />
+                <Input
+                    type="password"
+                    name="password"
+                    label="Password"
+                    value={fields.password.value}
+                    isTouched={fields.password.isTouched}
+                    isValid={fields.password.isValid}
+                    errMessage={fields.password.errMessage}
+                    onChange={(val) => onInputChange(val, 'password')}
+                    noValidate={fields.password.noValidate}
+                />
                 <div className="form-field">
-                    <label>Email</label>
-                    <input type="text" name="email" placeholder="Email" />
-                </div>
-                <div className="form-field">
-                    <label>Password</label>
-                    <input type="password" name="pass" placeholder="Password" />
-                </div>
-                <div className="form-field">
-                    <Btn color="white" bg="green">
+                    <Btn color="white" bg="green" size="lg">
                         Login
                     </Btn>
                 </div>

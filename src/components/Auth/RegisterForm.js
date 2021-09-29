@@ -41,7 +41,7 @@ const RegForm = (props) => {
                     <input type="password" name="pass" placeholder="Password" />
                 </div>
                 <div className="form-field">
-                    <Btn color="white" bg="green">
+                    <Btn color="white" bg="green" size="lg">
                         Login
                     </Btn>
                 </div>
