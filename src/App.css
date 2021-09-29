@@ -73,11 +73,15 @@ header.title {
 
 fieldset {
     border-radius: 10px;
+    font-size: 24px;
+}
+
+fieldset span {
+    font-size: 1rem;
 }
 
 .form-field {
-    position: relative;
-    padding: 15px 0;
+    margin: 15px 0;
     display: flex;
     flex-direction: column;
 }

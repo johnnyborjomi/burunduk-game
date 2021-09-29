@@ -1,5 +1,5 @@
 export const validators = {
-    name: (val) => {
+    player_name: (val) => {
         const isValid = val.length > 2;
         return [isValid, isValid ? null : '3 characters min'];
     },

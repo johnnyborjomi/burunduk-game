@@ -17,6 +17,7 @@ const StyledBtn = styled.button`
                         padding: 0px 0px;`;
         }
     }}
+    ${(props) => (props.disabled ? 'filter: brightness(0.3);' : '')}
     font-weight: bold;
     background: ${(props) => props.bg || 'white'};
     color: ${(props) => props.color || 'black'};
@@ -32,6 +33,7 @@ const Btn = (props) => {
             color={props.color}
             bg={props.bg}
             size={props.size || 'sm'}
+            disabled={props.disabled}
         >
             {props.children}
         </StyledBtn>

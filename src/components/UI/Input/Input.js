@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { v4 as uuid } from 'uuid';
 import cls from './Input.module.css';
 
@@ -13,32 +13,30 @@ const Input = ({
     errMessage,
     noValidate,
 }) => {
-    const id = uuid();
+    const [isFocused, setIsFocused] = useState(false);
 
     const classes = [];
-    if (!noValidate) {
-        if (isValid && isTouched) classes.push(cls.valid);
-        if (!isValid && isTouched) classes.push(cls.invalid);
-    }
+
+    if (isValid && isTouched && !noValidate) classes.push(cls.valid);
+    if (!isValid && isTouched && !noValidate) classes.push(cls.invalid);
+    if (isFocused || value.length) classes.push(cls.focused);
 
     return (
-        <div className="form-field">
-            <label className={`${cls.label} ${classes.join(' ')}`} htmlFor={id}>
-                {label}
-            </label>
+        <label className={cls.field}>
+            <span className={`${cls.label} ${classes.join(' ')}`}>{label}</span>
             <input
                 className={`${cls.input} ${classes.join(' ')}`}
-                id={id}
                 value={value}
                 name={name}
                 onChange={(event) => onChange(event.target.value)}
+                onFocus={() => setIsFocused(true)}
+                onBlur={() => setIsFocused(false)}
                 type={type}
-                placeholder={label}
             />
             {errMessage && !isValid && isTouched && !noValidate ? (
                 <span className={cls.errMessage}>{errMessage}</span>
             ) : null}
-        </div>
+        </label>
     );
 };
 
