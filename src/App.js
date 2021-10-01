@@ -10,7 +10,7 @@ function App({ isGameRun }) {
     return (
         <BrowserRouter basename="/burunduk-game/build">
             <Auth>
-                {isGameRun ? null : <Header />}
+                <Header isGameRun={isGameRun} />
                 <Switch>
                     <Route path="/" exact>
                         <StartPage />

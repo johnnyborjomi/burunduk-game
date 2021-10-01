@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { v4 as uuid } from 'uuid';
 import cls from './Input.module.css';
+import { ReactComponent as VisibilityIcon } from '../../../icons/visibility.svg';
+import { ReactComponent as NoVisibilityIcon } from '../../../icons/novisibility.svg';
 
 const Input = ({
     value,
@@ -14,12 +15,26 @@ const Input = ({
     noValidate,
 }) => {
     const [isFocused, setIsFocused] = useState(false);
+    const [passVisibility, setPassVisibility] = useState({
+        visible: false,
+        type: type,
+    });
 
     const classes = [];
 
     if (isValid && isTouched && !noValidate) classes.push(cls.valid);
     if (!isValid && isTouched && !noValidate) classes.push(cls.invalid);
     if (isFocused || value.length) classes.push(cls.focused);
+    if (type === 'password') classes.push(cls.password);
+
+    function toggleVisibility(e) {
+        e.preventDefault();
+        if (passVisibility.visible) {
+            setPassVisibility({ visible: false, type: 'password' });
+        } else {
+            setPassVisibility({ visible: true, type: 'text' });
+        }
+    }
 
     return (
         <label className={cls.field}>
@@ -31,10 +46,19 @@ const Input = ({
                 onChange={(event) => onChange(event.target.value)}
                 onFocus={() => setIsFocused(true)}
                 onBlur={() => setIsFocused(false)}
-                type={type}
+                type={type === 'password' ? passVisibility.type : type}
             />
+            {type === 'password' ? (
+                <i className={cls.show_icon} onClick={toggleVisibility}>
+                    {passVisibility.visible ? (
+                        <VisibilityIcon />
+                    ) : (
+                        <NoVisibilityIcon />
+                    )}
+                </i>
+            ) : null}
             {errMessage && !isValid && isTouched && !noValidate ? (
-                <span className={cls.errMessage}>{errMessage}</span>
+                <span className={cls.err_message}>{errMessage}</span>
             ) : null}
         </label>
     );

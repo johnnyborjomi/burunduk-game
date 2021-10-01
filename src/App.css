@@ -7,8 +7,8 @@
 
 @media (min-width: 640px) {
     :root {
-        --w-width: 80vw;
-        --w-height: 80vh;
+        --w-width: 75vw;
+        --w-height: 75vh;
     }
 }
 
@@ -32,13 +32,6 @@ a {
     color: white;
 }
 
-header.title {
-    position: absolute;
-    top: 32px;
-    color: var(--c-red);
-    font-weight: bold;
-}
-
 #root {
     display: flex;
     align-items: center;
@@ -52,7 +45,7 @@ header.title {
     justify-content: center;
     position: relative;
     padding: 10px;
-    margin-top: 30px;
+    margin-top: 65px;
 }
 
 @media (hover: hover) {
@@ -66,10 +59,28 @@ header.title {
 }
 
 @media (hover: none) {
-    .app.running .hole-wrap.missed:before {
+    .app.running .hole_wrap:hover:before {
+        border-color: transparent;
+    }
+
+    .app.running .hole_wrap.active:before {
+        border-color: green;
+    }
+
+    .app.running .hole_wrap.missed:before {
         border-color: var(--c-red);
     }
 }
+
+/* @media (max-width: 600px) {
+    .app.running .hole_wrap.missed:before {
+        border-color: var(--c-red);
+    }
+
+    .app.running .hole_wrap:hover:before {
+        border-color: transparent;
+    }
+} */
 
 fieldset {
     border-radius: 10px;
@@ -90,4 +101,12 @@ fieldset span {
     display: flex;
     flex-direction: column;
     justify-content: center;
+}
+
+.df {
+    display: flex;
+}
+
+.aic {
+    align-items: center;
 }

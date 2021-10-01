@@ -8,6 +8,7 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import Tabs from '../../components/Tabs/Tabs';
 import LoginForm from '../../components/Auth/LoginForm';
 import RegForm from '../../components/Auth/RegisterForm';
+import Header from '../Header/Header';
 import { AuthContext } from '../../context';
 
 const Auth = ({ dispatch, auth, user, children }) => {
@@ -51,6 +52,7 @@ const Auth = ({ dispatch, auth, user, children }) => {
             ) : (
                 <Switch>
                     <Route path="/login" exact>
+                        <Header />
                         <Tabs tabs={AuthTabs} />
                     </Route>
                     <Redirect from="/" to="/login"></Redirect>

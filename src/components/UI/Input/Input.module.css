@@ -6,6 +6,12 @@
     margin: 4px 0;
 }
 
+.field svg {
+    color: white;
+    width: 20px;
+    height: 20px;
+}
+
 .input {
     padding: 10px;
     font-size: 20px;
@@ -14,6 +20,11 @@
     color: white;
     border: 1px solid white;
     outline: none;
+    width: 100%;
+}
+
+.input.password {
+    padding-right: 35px;
 }
 
 .input.invalid {
@@ -41,12 +52,21 @@
 }
 
 .label.focused {
-    top: -2px;
+    top: -4px;
     left: 0;
 }
 
-.errMessage {
+.err_message {
     color: red;
     position: absolute;
     bottom: -2px;
+}
+
+.show_icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 20px;
+    line-height: 20px;
 }

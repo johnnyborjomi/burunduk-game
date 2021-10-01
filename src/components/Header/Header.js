@@ -7,8 +7,9 @@ import Btn from '../../components/UI/Btn/Btn';
 import { stopGameCreator } from '../../store/reducers/game';
 import { AuthContext } from '../../context';
 import Game from '../../service/game.service';
+import Title from '../UI/Title/Title';
 //TODO: clear game store on sign out
-const Header = ({ dispatch }) => {
+const Header = ({ dispatch, isGameRun }) => {
     const location = useLocation();
     const showBackBtn = location.pathname !== '/';
     const authCtx = useContext(AuthContext);
@@ -22,12 +23,23 @@ const Header = ({ dispatch }) => {
     }
     return (
         <header className={stl.header}>
-            {showBackBtn ? <Link to="/">⬅ Back</Link> : <span></span>}
-            <div>
-                <span className={stl.user_name}>{name}</span>
-                <Btn onClick={signOutHandler}>Sign Out</Btn>
+            <div className={stl.header_top_row}>
+                <Title>Kill the budger!!!</Title>
             </div>
+            {authCtx.user && !isGameRun ? (
+                <div className={stl.header_bottom_row}>
+                    {showBackBtn ? <Link to="/">⬅ Back</Link> : <span></span>}
+                    <div className="df aic">
+                        <span className={stl.user_name}>{name}</span>
+                        <Btn onClick={signOutHandler}>Sign Out</Btn>
+                    </div>
+                </div>
+            ) : null}
         </header>
     );
 };
-export default connect()(Header);
+
+function mapStToPrps(state, ownProps) {
+    return { isGameRun: ownProps.isGameRun };
+}
+export default connect(mapStToPrps)(Header);
