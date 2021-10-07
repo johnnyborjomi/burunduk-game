@@ -5,6 +5,7 @@ import Auth from './components/Auth/Auth';
 import Game from './components/Game/Game';
 import Header from './components/Header/Header';
 import StartPage from './components/Pages/StartPage';
+import SettingsPage from './components/Pages/SettingsPage';
 
 function App({ isGameRun }) {
     return (
@@ -14,6 +15,9 @@ function App({ isGameRun }) {
                 <Switch>
                     <Route path="/" exact>
                         <StartPage />
+                    </Route>
+                    <Route path="/settings">
+                        <SettingsPage />
                     </Route>
                     <Route path="/game">
                         <Game />

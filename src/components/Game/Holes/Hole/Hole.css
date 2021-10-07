@@ -34,7 +34,7 @@
     position: absolute;
     width: calc(100% + 5%);
     height: calc(100% + 5%);
-    border: 1.5vw dashed transparent;
+    border: calc(0.5vw + 0.5vh) dashed transparent;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);

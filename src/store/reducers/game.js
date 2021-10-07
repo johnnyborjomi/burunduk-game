@@ -3,6 +3,7 @@ const START_GAME = 'START_GAME';
 const LEVEL = 'LEVEL';
 const SCORE = 'SCORE';
 const MISSES = 'MISSES';
+const CLEAR_GAME = 'CLEAR_GAME';
 
 export const startGameCreator = () => {
     return {
@@ -37,6 +38,12 @@ export const levelCreator = (level) => {
     };
 };
 
+export const clearGameCreator = () => {
+    return {
+        type: CLEAR_GAME,
+    };
+};
+
 const defaultState = {
     isGameRun: false,
     score: 0,
@@ -56,6 +63,8 @@ const GameReducer = (state = defaultState, action) => {
             return { ...state, misses: action.misses };
         case SCORE:
             return { ...state, score: action.score };
+        case CLEAR_GAME:
+            return defaultState;
         default:
             return state;
     }

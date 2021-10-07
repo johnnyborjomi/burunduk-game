@@ -4,6 +4,7 @@
     left: 0;
     right: 0;
     z-index: 100;
+    background-color: black;
 }
 
 .header_top_row {
@@ -24,4 +25,8 @@
 .user_name {
     font-size: 0.7rem;
     margin-right: 10px;
+}
+
+.user_name:hover {
+    text-decoration: underline;
 }

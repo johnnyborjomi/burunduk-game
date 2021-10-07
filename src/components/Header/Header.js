@@ -4,7 +4,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { signOut, getAuth } from '@firebase/auth';
 import stl from './Header.module.css';
 import Btn from '../../components/UI/Btn/Btn';
-import { stopGameCreator } from '../../store/reducers/game';
+import { clearGameCreator, stopGameCreator } from '../../store/reducers/game';
 import { AuthContext } from '../../context';
 import Game from '../../service/game.service';
 import Title from '../UI/Title/Title';
@@ -19,6 +19,7 @@ const Header = ({ dispatch, isGameRun }) => {
     function signOutHandler() {
         Game.checkAndUpdateHighScores();
         dispatch(stopGameCreator());
+        dispatch(clearGameCreator());
         signOut(auth);
     }
     return (
@@ -30,7 +31,9 @@ const Header = ({ dispatch, isGameRun }) => {
                 <div className={stl.header_bottom_row}>
                     {showBackBtn ? <Link to="/">⬅ Back</Link> : <span></span>}
                     <div className="df aic">
-                        <span className={stl.user_name}>{name}</span>
+                        <Link to="/settings" className={stl.user_name}>
+                            {name}
+                        </Link>
                         <Btn onClick={signOutHandler}>Sign Out</Btn>
                     </div>
                 </div>

@@ -7,8 +7,8 @@
 
 @media (min-width: 640px) {
     :root {
-        --w-width: 75vw;
-        --w-height: 75vh;
+        --w-width: 70vw;
+        --w-height: 70vh;
     }
 }
 

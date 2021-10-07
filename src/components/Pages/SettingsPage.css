@@ -1,0 +1,51 @@
+.settings_page {
+    display: flex;
+    align-items: flex-start;
+    width: 100vw;
+    height: calc(100vh - 90px);
+    margin-top: 90px;
+    padding: 10px;
+    position: relative;
+}
+
+@media (min-width: 900px) {
+    .settings_page {
+        max-width: 800px;
+        margin: 90px auto 0;
+    }
+}
+
+.settings_sidebar {
+    border: 1px solid white;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    margin-right: 15px;
+    overflow: hidden;
+    position: fixed;
+    left: 10px;
+    transform: translateX(-0%);
+    background-color: rgb(2, 27, 27);
+    box-shadow: 0 0 0 1000px rgba(255, 255, 255, 0.33);
+}
+
+.settings_sidebar a {
+    border-bottom: 1px solid white;
+    padding: 8px 10px 8px 16px;
+}
+
+.settings_sidebar a.active {
+    border-bottom: 1px solid white;
+    box-shadow: inset 8px 0 green;
+}
+
+.settings_sidebar a:last-child {
+    border: none;
+}
+
+.settings_content {
+    border: 1px solid white;
+    border-radius: 10px;
+    flex-grow: 1;
+    padding: 10px;
+}
