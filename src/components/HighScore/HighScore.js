@@ -6,7 +6,7 @@ const HighScores = ({ results }) => {
 
     return (
         <div className={cls.high_score}>
-            <h3>Your Best Score:</h3>
+            <h3 className="tac">Your Best Score:</h3>
             <ul>
                 {resArr.map((item) => (
                     <li key={item}>

@@ -8,7 +8,7 @@ import { clearGameCreator, stopGameCreator } from '../../store/reducers/game';
 import { AuthContext } from '../../context';
 import Game from '../../service/game.service';
 import Title from '../UI/Title/Title';
-//TODO: clear game store on sign out
+//TODO: clear game on leaving the page
 const Header = ({ dispatch, isGameRun }) => {
     const location = useLocation();
     const showBackBtn = location.pathname !== '/';
@@ -27,7 +27,7 @@ const Header = ({ dispatch, isGameRun }) => {
             <div className={stl.header_top_row}>
                 <Title>Kill the budger!!!</Title>
             </div>
-            {authCtx.user && !isGameRun ? (
+            {authCtx.auth.isLogged && !isGameRun ? (
                 <div className={stl.header_bottom_row}>
                     {showBackBtn ? <Link to="/">⬅ Back</Link> : <span></span>}
                     <div className="df aic">

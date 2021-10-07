@@ -6,7 +6,7 @@ import { ReactComponent as NoVisibilityIcon } from '../../../icons/novisibility.
 const Input = ({
     value,
     onChange,
-    name,
+    name = Math.random(),
     label,
     type = 'text',
     isTouched,

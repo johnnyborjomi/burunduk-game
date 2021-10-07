@@ -103,6 +103,10 @@ fieldset span {
     justify-content: center;
 }
 
+.tac {
+    text-align: center;
+}
+
 .df {
     display: flex;
 }

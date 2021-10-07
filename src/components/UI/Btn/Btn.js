@@ -4,7 +4,8 @@ import styled from 'styled-components';
 const StyledBtn = styled.button`
     border: none;
     ${(props) => {
-        switch (props.size) {
+        const size = props.size || 'sm';
+        switch (size) {
             case 'sm':
                 return `border-radius: 5px;
                         padding: 3px 10px;
@@ -27,17 +28,7 @@ const StyledBtn = styled.button`
 `;
 
 const Btn = (props) => {
-    return (
-        <StyledBtn
-            onClick={props.onClick}
-            color={props.color}
-            bg={props.bg}
-            size={props.size || 'sm'}
-            disabled={props.disabled}
-        >
-            {props.children}
-        </StyledBtn>
-    );
+    return <StyledBtn {...props}>{props.children}</StyledBtn>;
 };
 
 export default Btn;

@@ -37,7 +37,7 @@
 
 .label {
     position: absolute;
-    top: 32px;
+    top: 28px;
     left: 12px;
     margin-bottom: 5px;
     transition: top 0.2s ease;

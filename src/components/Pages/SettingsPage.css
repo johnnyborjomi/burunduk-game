@@ -1,6 +1,4 @@
 .settings_page {
-    display: flex;
-    align-items: flex-start;
     width: 100vw;
     height: calc(100vh - 90px);
     margin-top: 90px;
@@ -15,6 +13,11 @@
     }
 }
 
+.settings_wrap {
+    display: flex;
+    align-items: flex-start;
+}
+
 .settings_sidebar {
     border: 1px solid white;
     border-radius: 10px;
@@ -24,9 +27,43 @@
     overflow: hidden;
     position: fixed;
     left: 10px;
-    transform: translateX(-0%);
+    transform: translateX(-120%);
     background-color: rgb(2, 27, 27);
-    box-shadow: 0 0 0 1000px rgba(255, 255, 255, 0.33);
+    transition: transform 0.2s ease;
+    z-index: 5;
+    width: 80%;
+}
+
+@media (min-width: 900px) {
+    .settings_sidebar {
+        position: static;
+        transform: translateX(0);
+        width: auto;
+    }
+}
+
+.settings_sidebar.open {
+    transform: translateX(0);
+}
+
+.settings_overlay {
+    position: fixed;
+    background: rgba(0, 0, 0, 0.9);
+    display: none;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+}
+
+.settings_overlay.open {
+    display: block;
+}
+
+@media (min-width: 900px) {
+    .settings_overlay.open {
+        display: none;
+    }
 }
 
 .settings_sidebar a {
@@ -48,4 +85,18 @@
     border-radius: 10px;
     flex-grow: 1;
     padding: 10px;
+}
+
+.settings_menu_btn {
+    margin-bottom: 15px;
+}
+
+@media (min-width: 900px) {
+    .settings_menu_btn {
+        display: none;
+    }
+}
+
+.settings_content h4 {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
