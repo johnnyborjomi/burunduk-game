@@ -125,4 +125,21 @@ export async function getUsers() {
     }
 }
 
+export async function updateUserName(newName) {
+    try {
+        const userRef = doc(db, 'users', auth.currentUser.uid);
+
+        await updateDoc(userRef, {
+            name: newName,
+        });
+        await updateProfile(auth.currentUser, {
+            displayName: newName,
+        });
+        return newName;
+    } catch (error) {
+        console.log('user/update-failed', error);
+        return { error };
+    }
+}
+
 export default fireBaseApp;

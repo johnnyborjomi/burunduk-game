@@ -1,6 +1,7 @@
 const ADD_USER = 'ADD_USER';
 const REMOVE_USER = 'REMOVE_USER';
 const HIGH_SCORES = 'HIGH_SCORES';
+const NEW_USER_NAME = 'NEW_USER_NAME';
 
 export const addUserCreator = (user) => {
     return {
@@ -26,6 +27,13 @@ export const highScoresCreator = (highScore) => {
     };
 };
 
+export const updateUserNameCreator = (newName) => {
+    return {
+        type: NEW_USER_NAME,
+        newName,
+    };
+};
+
 const userReducer = (state = defaultState, action) => {
     switch (action.type) {
         case ADD_USER:
@@ -39,6 +47,11 @@ const userReducer = (state = defaultState, action) => {
                     ...state.game,
                     highScore: action.highScore,
                 },
+            };
+        case NEW_USER_NAME:
+            return {
+                ...state,
+                name: action.newName,
             };
         default:
             return state;

@@ -1,5 +1,9 @@
-import { updateHighScores, getUsers as getDbUsers } from '../../firebase';
-import { highScoresCreator } from '../reducers/user';
+import {
+    updateHighScores,
+    getUsers as getDbUsers,
+    updateUserName,
+} from '../../firebase';
+import { highScoresCreator, updateUserNameCreator } from '../reducers/user';
 import { setUsersCreator } from '../reducers/users';
 
 export const updateHighScoresThunk = (newhighScore) => {
@@ -19,5 +23,17 @@ export const getUsersThunk = () => {
         return getDbUsers().then((data) => {
             dispatch(setUsersCreator(data));
         });
+    };
+};
+
+export const updateUserNameThunk = (newName) => {
+    return function (dispatch) {
+        updateUserName(newName)
+            .then(() => {
+                dispatch(updateUserNameCreator(newName));
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     };
 };
